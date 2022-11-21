@@ -1,0 +1,101 @@
+model Progetto
+  options noimplicit
+  uses "mmxprs", "mmsystem"
+  ! forward procedure Print_Status
+  forward procedure modello_matematico
+  forward procedure BPP_GP_output_MM
+
+  declarations
+
+    n: integer !numero di item, integer
+    m: integer !numero di bin
+    l: integer !numero di archi
+    c : integer ! capacità dei bin
+
+    inputfile = "BPP_progettoMOLP.dat" !nome del file
+
+  end-declarations
+
+  initialisations from inputfile
+    n
+    m
+    l
+    c
+  end-initialisations
+
+  declarations
+    items = 1..n !range degli items
+    bins = 1..m !range dei bins
+    archi = 1..l ! range degli archi
+    pesi : array(items) of integer ! array dei pesi
+    z : linctr !funzione obiettivo
+    !prec : array(items, items) of integer !matrice delle precedenze
+    partenza : array(archi) of integer !item da cui parte l'arco della precedenza
+    arrivo : array(archi) of integer !item a cui arriva l'arco della precedenza
+    pval : array(archi) of integer !valore sull'arco della precedenza
+    t1,t2 : real
+    eps= 0.0001
+    
+    y: array(bins) of mpvar ! bins aperti
+    x: array(bins, items) of mpvar !a che bin appartiene ogni item
+  end-declarations
+  
+  initialisations from inputfile
+    arrivo
+    partenza
+    pesi
+    pval
+  end-initialisations
+
+  !!!!!!MAIN!!!!!!!
+  ! write(arrivo)
+  modello_matematico
+  t1 := gettime
+  minimize(z)
+  t2 := gettime
+  ! Print_Status
+  BPP_GP_output_MM
+  !!!!!!!!!END MAIN !!!!!!!!!!
+  procedure modello_matematico
+    ! declarations
+    !   y: array(bins) of mpvar ! bins aperti
+    !   x: array(bins, items) of mpvar !a che bin appartiene ogni item
+    ! end-declarations
+    z := sum(i in bins) y(i) ! (1) funzione obiettivo
+    forall (j in items) sum(i in bins) x(i, j) = 1 ! (2) ogni item assegnato esattamente ad un bin
+    forall (i in bins) sum (j in items) pesi(j) * x(i, j) <= c * y(i) ! (3) vincolo di capacità per bin aperto
+    forall (u in archi) sum (i in bins) i * x (i, arrivo(u)) >= sum(i in bins) (i*x(i, partenza(u))) + pval(u) ! (4) vincolo sulle relazioni di precedenze
+    
+    forall (i in 1..(m-1)) y(i) >= y (i+1) ! (5) bin aperti in ordine
+    forall (i in bins) y(i) is_binary ! (6)
+    forall (i in bins, j in items) x(i, j) is_binary ! (7)
+  end-procedure
+
+  ! procedure Print_Status
+  !   !restituisce lo stato del problema e quindi la natura della soluzione ottenuta
+  !   case getprobstat of
+  !     XPRS_OPT: solution_status:="Optimum found"
+  !     XPRS_UNF: solution_status:="Unfinished"
+  !     XPRS_INF: solution_status:="Infeasible"
+  !     XPRS_UNB: solution_status:="Unbounded"
+  !     XPRS_OTH: solution_status:="Failed"
+  !     else solution_status:="???"
+  !   end-case
+  !   writeln("Problem status: ", solution_status)
+  ! end-procedure
+  
+  procedure BPP_GP_output_MM
+    writeln("SOLUZIONE")
+    writeln("\tz = ", getobjval)
+    forall(i in bins) do
+      if (getsol(y(i)) > eps) then
+        writeln("\ty(", i, ") = ",getsol(y(i)))
+        forall(j in items)
+          if (getsol(x(i,j)) > eps) then
+            writeln("\t\tx(",i,", ", j, ") = ", getsol(x(i,j)))
+          end-if
+      end-if  
+    end-do
+  end-procedure
+
+end-model
