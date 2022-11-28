@@ -4,6 +4,7 @@ model Progetto
   ! forward procedure Print_Status
   forward procedure modello_matematico
   forward procedure BPP_GP_output_MM
+  forward procedure BPPGP_euristico
 
   declarations
 
@@ -35,11 +36,11 @@ model Progetto
     pval : array(archi) of integer !valore sull'arco della precedenza
     t1,t2 : real
     eps= 0.0001
-    
+
     y: array(bins) of mpvar ! bins aperti
     x: array(bins, items) of mpvar !a che bin appartiene ogni item
   end-declarations
-  
+
   initialisations from inputfile
     arrivo
     partenza
@@ -48,6 +49,7 @@ model Progetto
   end-initialisations
 
   !!!!!!MAIN!!!!!!!
+
   ! write(arrivo)
   modello_matematico
   t1 := gettime
@@ -56,6 +58,58 @@ model Progetto
   ! Print_Status
   BPP_GP_output_MM
   !!!!!!!!!END MAIN !!!!!!!!!!
+
+  procedure BPPGP_euristico
+    declarations
+      xeur: array(items, bins) of integer
+      yeur: array(bins) of integer
+      disp: array(items) of integer ! item che possono essere inseriti
+      sel: array(items) of integer ! item che sono già stati selezionati
+      indice : integer
+      fine : boolean
+      cap : integer
+      zeur : integer
+    end-declarations
+
+    zeur := 0
+    forall(i in sel) sel(i) := 0
+    forall(i in disp) disp(i) := 1
+    forall(i in arrivo) disp(arrivo(i)):= 0
+
+    cap := c
+    while (not fine) do
+      while (true) do ! trova un indice che sia disponibile casualmente
+        indice:= ceil(random * n)
+        if(disp(indice) = 1) then
+          break
+        end-if
+      end-do
+
+      if (pesi(indice) > cap) then
+        zeur += 1
+        cap := c - pesi(indice)
+      else cap -= pesi(indice)
+      end-if
+        ! Attenzione, al numero del bin in relazione alle precedenze
+      sel(indice) := 1
+      xeur(indice,  zeur) := 1
+      forall (i in partenza) do
+        if (partenza(i) = items(indice)) then
+          forall (h in arrivo) do
+            if (arrivo(i) = arrivo(h) and i <> h) then
+              if(sel(partenza(h)) = 0) then
+
+                break
+              end-if
+            end-if
+          end-do
+
+        end-if
+      end-do
+    end-do
+
+
+  end-procedure
   procedure modello_matematico
     ! declarations
     !   y: array(bins) of mpvar ! bins aperti
@@ -65,7 +119,7 @@ model Progetto
     forall (j in items) sum(i in bins) x(i, j) = 1 ! (2) ogni item assegnato esattamente ad un bin
     forall (i in bins) sum (j in items) pesi(j) * x(i, j) <= c * y(i) ! (3) vincolo di capacità per bin aperto
     forall (u in archi) sum (i in bins) i * x (i, arrivo(u)) >= sum(i in bins) (i*x(i, partenza(u))) + pval(u) ! (4) vincolo sulle relazioni di precedenze
-    
+
     forall (i in 1..(m-1)) y(i) >= y (i+1) ! (5) bin aperti in ordine
     forall (i in bins) y(i) is_binary ! (6)
     forall (i in bins, j in items) x(i, j) is_binary ! (7)
@@ -83,7 +137,7 @@ model Progetto
   !   end-case
   !   writeln("Problem status: ", solution_status)
   ! end-procedure
-  
+
   procedure BPP_GP_output_MM
     writeln("SOLUZIONE")
     writeln("\tz = ", getobjval)
@@ -94,7 +148,7 @@ model Progetto
           if (getsol(x(i,j)) > eps) then
             writeln("\t\tx(",i,", ", j, ") = ", getsol(x(i,j)))
           end-if
-      end-if  
+      end-if
     end-do
   end-procedure
 
