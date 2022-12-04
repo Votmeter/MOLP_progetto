@@ -1,0 +1,325 @@
+{
+    "breakpoints": {
+        "json()": [
+            {
+                "path": "/Tesina 1.mos",
+                "line": 69,
+                "column": 6,
+                "text": "Tesina 1.mos",
+                "content": "      controllati: array(intems) of integer ! item già controllati in arrivo",
+                "time": 1670152332075,
+                "enabled": true
+            },
+            {
+                "path": "/Tesina 1.mos",
+                "line": 70,
+                "column": 6,
+                "text": "Tesina 1.mos",
+                "content": "      checking: integer !item in arrivo che sto controllando",
+                "time": 1670153381693,
+                "enabled": true
+            },
+            {
+                "path": "/Tesina 1.mos",
+                "line": 71,
+                "column": 6,
+                "text": "Tesina 1.mos",
+                "content": "      check_result: boolean !esito del checking -> true può diventare disponibile",
+                "time": 1670153930825,
+                "enabled": true
+            },
+            {
+                "path": "/Tesina 1.mos",
+                "line": 68,
+                "column": 6,
+                "text": "Tesina 1.mos",
+                "content": "      getdisp : boolean ! ho items da prendere",
+                "time": 1670177512697,
+                "enabled": true
+            }
+        ]
+    },
+    "console": {
+        "@expanded": true,
+        "@height": 223.60000610351562,
+        "@maximized": "false",
+        "json()": {
+            "meta": {
+                "accessList": [
+                    "tab3",
+                    "tab2"
+                ]
+            },
+            "name": "pane1",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab2",
+                    "path": "",
+                    "className": [
+                        "tab2"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "Compile - Idle",
+                        "tooltip": "Compile - Idle",
+                        "output": {
+                            "id": "build",
+                            "width": 1443,
+                            "height": 198,
+                            "scrollTop": 10.200008392333984,
+                            "selection": {
+                                "start": {
+                                    "row": 3,
+                                    "column": 16
+                                },
+                                "end": {
+                                    "row": 3,
+                                    "column": 41
+                                },
+                                "isBackwards": false
+                            },
+                            "config": {
+                                "name": "Compile",
+                                "toolbar": false,
+                                "command": ""
+                            }
+                        },
+                        "hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+                        "meta": {
+                            "timestamp": 1670158853806
+                        },
+                        "changed": false
+                    },
+                    "editorType": "output",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab3",
+                    "path": "",
+                    "className": [
+                        "tab3"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1670161593031
+                        },
+                        "filter": true,
+                        "title": "Tesina\\ 1.mos - Stopped",
+                        "tooltip": "Tesina\\ 1.mos - Stopped",
+                        "output": {
+                            "id": "output534240",
+                            "width": 1304,
+                            "height": 198,
+                            "config": {
+                                "runner": "Mosel",
+                                "command": "Tesina\\ 1.mos",
+                                "debug": false,
+                                "toolbar": true,
+                                "name": ""
+                            }
+                        }
+                    },
+                    "editorType": "output",
+                    "active": true
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "ext": {
+        "counters": {
+            "@ace": 1,
+            "@acestatus": 1,
+            "@base-step-wizard": 2,
+            "@divider": 4,
+            "@document": 4,
+            "@editorswitch": 1,
+            "@fico.vdl.attributes-panel": 1,
+            "@fico.vdl.palette-panel": 1,
+            "@form": 4,
+            "@menu": 3,
+            "@menuitem": 8,
+            "@pane": 2,
+            "@session": 4,
+            "@tab": 5,
+            "@undoManager": 4,
+            "@welcome": 1
+        }
+    },
+    "findinfiles": {
+        "@console": "true",
+        "@matchcase": "false",
+        "@regex": "false",
+        "@scope": "selection",
+        "@wholeword": "false"
+    },
+    "local": {
+        "window": {
+            "@fullscreen": false,
+            "@maximized": true,
+            "@minimized": false
+        }
+    },
+    "menus": {
+        "@minimized": "false"
+    },
+    "nak": {
+        "@installed": true
+    },
+    "od": {
+        "@last-run-config": "path:Tesina 1.mos"
+    },
+    "panecycle": {
+        "json()": [
+            "tab1",
+            "tab3"
+        ]
+    },
+    "panels": {
+        "@active-left": "tree",
+        "@active-right": "none",
+        "commands.panel": {
+            "@enabled": "false",
+            "@name": "commands.panel"
+        },
+        "debugger": {
+            "@enabled": "true",
+            "@name": "debugger"
+        },
+        "fico.ide.language.mosel.modules-panel": {
+            "@enabled": "true",
+            "@name": "fico.ide.language.mosel.modules-panel"
+        },
+        "fico.om.sidebar": {
+            "@enabled": "true",
+            "@name": "fico.om.sidebar"
+        },
+        "fico.vdl.attributes-panel0": {
+            "@enabled": "false",
+            "@name": "fico.vdl.attributes-panel0"
+        },
+        "fico.vdl.palette-panel0": {
+            "@enabled": "false",
+            "@name": "fico.vdl.palette-panel0"
+        },
+        "mosel.profiler": {
+            "@enabled": "true",
+            "@name": "mosel.profiler"
+        },
+        "navigate": {
+            "@enabled": "false",
+            "@name": "navigate"
+        },
+        "outline": {
+            "@enabled": "true",
+            "@name": "outline"
+        },
+        "tree": {
+            "@enabled": "true",
+            "@name": "tree"
+        }
+    },
+    "projecttree": {
+        "expanded": {
+            "json()": [
+                "/"
+            ]
+        }
+    },
+    "tabs": {
+        "json()": {
+            "focus": "/Tesina 1.mos",
+            "meta": {
+                "accessList": [
+                    "tab1",
+                    "tab4"
+                ]
+            },
+            "name": "pane0",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "/Tesina 1.mos",
+                    "className": [
+                        "tab1",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1670185954702
+                        },
+                        "filter": true,
+                        "title": "Tesina 1.mos",
+                        "tooltip": "/Tesina 1.mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab4",
+                    "path": "/BPP_progettoMOLP.dat",
+                    "className": [
+                        "tab4"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "BPP_progettoMOLP.dat",
+                        "tooltip": "/BPP_progettoMOLP.dat",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 6,
+                                    "column": 6
+                                },
+                                "end": {
+                                    "row": 6,
+                                    "column": 6
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": {
+                                "row": 40,
+                                "mode": "ace/mode/text"
+                            }
+                        },
+                        "hash": "596cd5203bc48f46817b7a9e5437891ad4338ce5",
+                        "meta": {
+                            "timestamp": 1669046192363
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "tree_selection": {
+        "json()": [
+            "/BPP_progettoMOLP.dat"
+        ]
+    },
+    "welcome": {
+        "@first": true
+    }
+}

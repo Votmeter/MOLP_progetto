@@ -66,37 +66,118 @@ model Progetto
       yeur: array(bins) of integer
       disp: array(items) of integer ! item che possono essere inseriti
       sel: array(items) of integer ! item che sono già stati selezionati
+      getdisp : boolean ! ho items da prendere
       controllati: array(items) of integer ! item già controllati in arrivo
       checking: integer !item in arrivo che sto controllando
       check_result: boolean !esito del checking -> true può diventare disponibile
       indice : integer
-      fine : boolean
+      fine : boolean !Booleano per controllare la fine del ciclo
       cap : integer
       zeur : integer
     end-declarations
 
-    zeur := 0
+    zeur := 1 !Si parte per forza dal Bin 1
+    fine := false
     !Non si può ciclare sulle strutture array, si deve ciclare sulle liste: quelli che vengono definiti da 1..n \ 1..m etc, come bins, items o archi
-    forall(i in sel) sel(i) := 0
-    forall(i in disp) disp(i) := 1
-    forall(i in arrivo) disp(arrivo(i)):= 0
+    forall(i in items) sel(i) := 0
+    forall(i in items) disp(i) := 1
+    forall(i in archi) disp(arrivo(i)):= 0
 
     cap := c
-    while (fine) do
+    while (not fine) do
       fine := true
+      getdisp := false
       
-      while (true) do ! trova un indice disponibile casualmente
-        indice:= ceil(random * n)
-        if(disp(indice) = 1) then
+      !Ciclo per controllare la disponibilità di item da selezionare
+      forall (o in items) do
+        if (disp(o) = 1) then
+          write(o, " è disponibile -> ")
+          getdisp := true
+          break
+        end-if
+      end-do
+      
+      !Ciclo che viene percorso solamente in caso di non disponibilità: apre un nuovo bin se necessario
+      while(not getdisp) do
+        zeur += 1
+        writeln("Costretto ad aprire ", zeur, " -> ")
+        
+        forall (i in items) controllati(i) := 0 !azzero gli item controllati
+        forall(i in archi) do
+          if (sel(arrivo(i)) <> 1) then 
+          !controllo solo gli item in arrivo che non ho già selezionati;va fatto prima del prossimo per poter azzerare sempre i controllati
+            if (controllati(arrivo(i)) <> 1) then
+              check_result := true !Inizialmente può essere inserito, se fallisce i controlli no
+              checking := arrivo(i) !Sto controllanto l'item arrivo(i)
+              
+              !##### Ecco la ciccia: i controlli #####!
+              forall(h in archi) do
+              
+                if (items(arrivo(h)) = checking) then
+                  !quando nell'array arrivo trovo l'item che stiamo controllando ->
+                  if (sel(partenza(h)) <> 1) then
+                    ! Se la partenza non è stata selezionata -> il controllo fallisce
+                    check_result := false
+                    break
+                  end-if
+                  !Questo punto del codice viene raggiunto solamentese tutte gli item con precedenze sono stati già assegnati
+                  
+                  forall(j in bins) do
+                    !Facciamo ruotare la variabile j sui bin ->
+                    if (xeur(items(partenza(h)), j) = 1 and zeur - pval(h) - j < 0) then
+                      !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [j], 
+                      !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [j]
+                      !sia maggiore o uguale a zero -> sia passato abbastanza tempo
+                      !altrimenti il controllo fallisce
+                      check_result := false
+                      break
+                    
+                    end-if
+                  end-do
+                  if(not check_result) then break
+                  end-if
+                end-if
+              end-do
+              
+              if (check_result) then
+              !Qui, se i controlli non sono falliti, aggiorniamo la disponibilità -> nel prossimo passaggio possiamo prendere quell'item che stava in arrivo 
+                disp (arrivo(i)) := 1
+                getdisp := true
+              !Altrimenti consideriamo semplicemente controllato l'arrivo a questo item
+              controllati(arrivo(i)) := 1
+              end-if 
+            end-if
+          end-if
+        end-do            
+        
+      end-do  
+            
+
+          
+      
+      while (true) do
+      
+      ! while (true) do ! trova un indice disponibile casualmente
+        indice := ceil(random * n)
+        
+        if(disp(indice) = 1 and sel(indice) = 0) then
+          write ("Seleziono ", indice, " -> ")
           break
         end-if
       end-do
 
       if (pesi(indice) > cap) then
-        zeur += 1
+        zeur := zeur + 1
         cap := c - pesi(indice)
       else cap -= pesi(indice)
       end-if
+      writeln("Assegno a bin: ", zeur, " rimane cap: ", cap)
+      
+      ! if (zeur >= m) then
+      !   writeln("tutti i bin sono occupati")
+      !   break
+      ! end-if
+      disp(indice) := 0 !togliamo la disponibilità di indice
       sel(indice) := 1
       xeur(indice,  zeur) := 1
       
@@ -116,17 +197,18 @@ model Progetto
       
       !!!!!!!!!!!!NICO!!!!!!!!!!
       !!ciclo di controllo precedenze!!
-      forall (i in controllati) controllati(i) := 0 !azzero gli item controllati
+      forall (i in items) controllati(i) := 0 !azzero gli item controllati
       
-      forall(i in arrivo) do
+      forall(i in archi) do
         if (sel(arrivo(i)) <> 1) then 
         !controllo solo gli item in arrivo che non ho già selezionati;va fatto prima del prossimo per poter azzerare sempre i controllati
           if (controllati(arrivo(i)) <> 1) then
             check_result := true !Inizialmente può essere inserito, se fallisce i controlli no
             checking := arrivo(i) !Sto controllanto l'item arrivo(i)
+            ! writeln("checnking: ", checking)
             
             !##### Ecco la ciccia: i controlli #####!
-            forall(h in arrivo) do
+            forall(h in archi) do
             
               if (items(arrivo(h)) = checking) then
                 !quando nell'array arrivo trovo l'item che stiamo controllando ->
@@ -138,7 +220,7 @@ model Progetto
                 !Questo punto del codice viene raggiunto solamentese tutte gli item con precedenze sono stati già assegnati
                 
                 forall(j in bins) do
-                  !Facciamo ruotare la variabile b sui bin ->
+                  !Facciamo ruotare la variabile j sui bin ->
                   if (xeur(items(partenza(h)), j) = 1 and zeur - pval(h) - j < 0) then
                     !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [j], 
                     !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [j]
@@ -146,35 +228,38 @@ model Progetto
                     !altrimenti il controllo fallisce
                     check_result := false
                     break
+                  
                   end-if
                 end-do
+                if(not check_result) then break
+                end-if
               end-if
             end-do
             
             if (check_result) then
             !Qui, se i controlli non sono falliti, aggiorniamo la disponibilità -> nel prossimo passaggio possiamo prendere quell'item che stava in arrivo 
               disp (arrivo(i)) := 1
-            else  
+              writeln("diventa disponibile ", i)
+            
             !Altrimenti consideriamo semplicemente controllato l'arrivo a questo item
-              controllati(arrivo(i)) := 1
-            end-if
-              
+            controllati(arrivo(i)) := 1
+            end-if 
           end-if
         end-if
       end-do
       
-      forall (i in sel)
+      forall (i in items)
         if (sel(i) = 0) then fine := false
         end-if
       
     end-do
     
     write("SOLUZIONE EURISTICO COSTRUTTIVO")
-    write("\tzeur = ",zeur)
-    forall(i, j in xeur)
-      if(xeur(i, j) > eps) then
-        write("x(", i,", ", j, " = 1")
-      end-if
+    writeln("\tZEUR = ",zeur)
+    ! forall(i, j in xeur)
+    !   if(xeur(i, j) > eps) then
+    !     write("x(", i,", ", j, " = 1")
+    !   end-if
 
 
   end-procedure
