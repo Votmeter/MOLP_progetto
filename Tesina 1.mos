@@ -93,19 +93,27 @@ model Progetto
         ! Attenzione, al numero del bin in relazione alle precedenze
       sel(indice) := 1
       xeur(indice,  zeur) := 1
-      forall (i in partenza) do
-        if (partenza(i) = items(indice)) then
-          forall (h in arrivo) do
-            if (arrivo(i) = arrivo(h) and i <> h) then
-              if(sel(partenza(h)) = 0) then
+      
+      ! forall (i in partenza) do
+      !   if (partenza(i) = items(indice)) then
+      !     forall (h in arrivo) do
+      !       if (arrivo(i) = arrivo(h) and i <> h) then
+      !         if(sel(partenza(h)) = 0) then
 
-                break
-              end-if
-            end-if
-          end-do
+      !           break
+      !         end-if
+      !       end-if
+      !     end-do
 
-        end-if
+      !   end-if
+      ! end-do
+      
+      !!!!!!!!!!!!NICO!!!!!!!!!!
+      forall(i in arrivo) do
+        
       end-do
+      
+      
     end-do
 
 

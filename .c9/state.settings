@@ -32,8 +32,8 @@
                         "tooltip": "Tesina\\ 1.mos - Idle",
                         "output": {
                             "id": "output746040",
-                            "width": 1304,
-                            "height": 166,
+                            "width": 1484,
+                            "height": 172,
                             "config": {
                                 "runner": "Mosel",
                                 "command": "Tesina\\ 1.mos",
@@ -90,7 +90,7 @@
             "@base-step-wizard": 2,
             "@datagrid": 1,
             "@divider": 4,
-            "@document": 5,
+            "@document": 6,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -99,9 +99,9 @@
             "@menuitem": 8,
             "@pane": 2,
             "@preferences": 1,
-            "@session": 4,
-            "@tab": 7,
-            "@undoManager": 5,
+            "@session": 5,
+            "@tab": 1,
+            "@undoManager": 6,
             "@welcome": 1
         }
     },
@@ -115,7 +115,7 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": false,
+            "@maximized": true,
             "@minimized": true,
             "@position": "168:9",
             "@size": "1202:806"
@@ -211,7 +211,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1669655669217
+                            "timestamp": 1670150411481
                         },
                         "filter": true,
                         "title": "Tesina 1.mos",
