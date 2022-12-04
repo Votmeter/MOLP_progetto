@@ -51,6 +51,7 @@ model Progetto
   !!!!!!MAIN!!!!!!!
 
   ! write(arrivo)
+  BPPGP_euristico
   modello_matematico
   t1 := gettime
   minimize(z)
@@ -65,7 +66,7 @@ model Progetto
       yeur: array(bins) of integer
       disp: array(items) of integer ! item che possono essere inseriti
       sel: array(items) of integer ! item che sono già stati selezionati
-      controllati: array(intems) of integer ! item già controllati in arrivo
+      controllati: array(items) of integer ! item già controllati in arrivo
       checking: integer !item in arrivo che sto controllando
       check_result: boolean !esito del checking -> true può diventare disponibile
       indice : integer
@@ -75,13 +76,16 @@ model Progetto
     end-declarations
 
     zeur := 0
+    !Non si può ciclare sulle strutture array, si deve ciclare sulle liste: quelli che vengono definiti da 1..n \ 1..m etc, come bins, items o archi
     forall(i in sel) sel(i) := 0
     forall(i in disp) disp(i) := 1
     forall(i in arrivo) disp(arrivo(i)):= 0
 
     cap := c
-    while (not fine) do
-      while (true) do ! trova un indice che sia disponibile casualmente
+    while (fine) do
+      fine := true
+      
+      while (true) do ! trova un indice disponibile casualmente
         indice:= ceil(random * n)
         if(disp(indice) = 1) then
           break
@@ -93,7 +97,6 @@ model Progetto
         cap := c - pesi(indice)
       else cap -= pesi(indice)
       end-if
-        ! Attenzione, al numero del bin in relazione alle precedenze
       sel(indice) := 1
       xeur(indice,  zeur) := 1
       
@@ -109,7 +112,7 @@ model Progetto
       !     end-do
 
       !   end-if
-      end-do
+      
       
       !!!!!!!!!!!!NICO!!!!!!!!!!
       !!ciclo di controllo precedenze!!
@@ -134,11 +137,11 @@ model Progetto
                 end-if
                 !Questo punto del codice viene raggiunto solamentese tutte gli item con precedenze sono stati già assegnati
                 
-                forall(b in bins) do
+                forall(j in bins) do
                   !Facciamo ruotare la variabile b sui bin ->
-                  if (xeur(items(partenza(h)), b) = 1 and zeur - pval(h) - b < 0) then
-                    !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [b], 
-                    !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [b]
+                  if (xeur(items(partenza(h)), j) = 1 and zeur - pval(h) - j < 0) then
+                    !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [j], 
+                    !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [j]
                     !sia maggiore o uguale a zero -> sia passato abbastanza tempo
                     !altrimenti il controllo fallisce
                     check_result := false
@@ -160,8 +163,18 @@ model Progetto
         end-if
       end-do
       
+      forall (i in sel)
+        if (sel(i) = 0) then fine := false
+        end-if
       
+    end-do
     
+    write("SOLUZIONE EURISTICO COSTRUTTIVO")
+    write("\tzeur = ",zeur)
+    forall(i, j in xeur)
+      if(xeur(i, j) > eps) then
+        write("x(", i,", ", j, " = 1")
+      end-if
 
 
   end-procedure
