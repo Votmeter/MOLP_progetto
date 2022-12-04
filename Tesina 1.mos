@@ -65,6 +65,9 @@ model Progetto
       yeur: array(bins) of integer
       disp: array(items) of integer ! item che possono essere inseriti
       sel: array(items) of integer ! item che sono già stati selezionati
+      controllati: array(intems) of integer ! item già controllati in arrivo
+      checking: integer !item in arrivo che sto controllando
+      check_result: boolean !esito del checking -> true può diventare disponibile
       indice : integer
       fine : boolean
       cap : integer
@@ -106,18 +109,64 @@ model Progetto
       !     end-do
 
       !   end-if
-      ! end-do
+      end-do
       
       !!!!!!!!!!!!NICO!!!!!!!!!!
+      !!ciclo di controllo precedenze!!
+      forall (i in controllati) controllati(i) := 0 !azzero gli item controllati
+      
       forall(i in arrivo) do
-        
+        if (sel(arrivo(i)) <> 1) then 
+        !controllo solo gli item in arrivo che non ho già selezionati;va fatto prima del prossimo per poter azzerare sempre i controllati
+          if (controllati(arrivo(i)) <> 1) then
+            check_result := true !Inizialmente può essere inserito, se fallisce i controlli no
+            checking := arrivo(i) !Sto controllanto l'item arrivo(i)
+            
+            !##### Ecco la ciccia: i controlli #####!
+            forall(h in arrivo) do
+            
+              if (items(arrivo(h)) = checking) then
+                !quando nell'array arrivo trovo l'item che stiamo controllando ->
+                if (sel(partenza(h)) <> 1) then
+                  ! Se la partenza non è stata selezionata -> il controllo fallisce
+                  check_result := false
+                  break
+                end-if
+                !Questo punto del codice viene raggiunto solamentese tutte gli item con precedenze sono stati già assegnati
+                
+                forall(b in bins) do
+                  !Facciamo ruotare la variabile b sui bin ->
+                  if (xeur(items(partenza(h)), b) = 1 and zeur - pval(h) - b < 0) then
+                    !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [b], 
+                    !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [b]
+                    !sia maggiore o uguale a zero -> sia passato abbastanza tempo
+                    !altrimenti il controllo fallisce
+                    check_result := false
+                    break
+                  end-if
+                end-do
+              end-if
+            end-do
+            
+            if (check_result) then
+            !Qui, se i controlli non sono falliti, aggiorniamo la disponibilità -> nel prossimo passaggio possiamo prendere quell'item che stava in arrivo 
+              disp (arrivo(i)) := 1
+            else  
+            !Altrimenti consideriamo semplicemente controllato l'arrivo a questo item
+              controllati(arrivo(i)) := 1
+            end-if
+              
+          end-if
+        end-if
       end-do
       
       
-    end-do
+    
 
 
   end-procedure
+  
+  
   procedure modello_matematico
     ! declarations
     !   y: array(bins) of mpvar ! bins aperti
