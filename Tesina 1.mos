@@ -81,7 +81,7 @@ model Progetto
     !Non si può ciclare sulle strutture array, si deve ciclare sulle liste: quelli che vengono definiti da 1..n \ 1..m etc, come bins, items o archi
     forall(i in items) sel(i) := 0
     forall(i in items) disp(i) := 1
-    forall(i in archi) disp(arrivo(i)):= 0
+    forall(i in archi) disp(arrivo(i)) := 0
 
     cap := c
     while (not fine) do
@@ -173,12 +173,14 @@ model Progetto
       end-if
       writeln("Assegno a bin: ", zeur, " rimane cap: ", cap)
       
+      
       ! if (zeur >= m) then
       !   writeln("tutti i bin sono occupati")
       !   break
       ! end-if
       disp(indice) := 0 !togliamo la disponibilità di indice
       sel(indice) := 1
+      
       xeur(indice,  zeur) := 1
       
       ! forall (i in partenza) do
@@ -231,6 +233,7 @@ model Progetto
                   
                   end-if
                 end-do
+                
                 if(not check_result) then break
                 end-if
               end-if
@@ -239,11 +242,11 @@ model Progetto
             if (check_result) then
             !Qui, se i controlli non sono falliti, aggiorniamo la disponibilità -> nel prossimo passaggio possiamo prendere quell'item che stava in arrivo 
               disp (arrivo(i)) := 1
-              writeln("diventa disponibile ", i)
-            
+              writeln("diventa disponibile ", arrivo(i))
+            end-if
             !Altrimenti consideriamo semplicemente controllato l'arrivo a questo item
             controllati(arrivo(i)) := 1
-            end-if 
+            
           end-if
         end-if
       end-do

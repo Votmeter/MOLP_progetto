@@ -161,8 +161,8 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": true,
-            "@minimized": false
+            "@maximized": false,
+            "@minimized": true
         }
     },
     "menus": {
@@ -253,7 +253,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1670185954702
+                            "timestamp": 1670248567988
                         },
                         "filter": true,
                         "title": "Tesina 1.mos",
@@ -271,39 +271,14 @@
                         "tab4"
                     ],
                     "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1670248796138
+                        },
                         "filter": true,
                         "title": "BPP_progettoMOLP.dat",
                         "tooltip": "/BPP_progettoMOLP.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 6,
-                                    "column": 6
-                                },
-                                "end": {
-                                    "row": 6,
-                                    "column": 6
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": {
-                                "row": 40,
-                                "mode": "ace/mode/text"
-                            }
-                        },
-                        "hash": "596cd5203bc48f46817b7a9e5437891ad4338ce5",
-                        "meta": {
-                            "timestamp": 1669046192363
-                        },
-                        "changed": false
+                        "ace": {}
                     },
                     "editorType": "ace",
                     "active": false
