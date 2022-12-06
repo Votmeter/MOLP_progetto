@@ -111,8 +111,8 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": false,
-            "@minimized": true
+            "@maximized": true,
+            "@minimized": false
         }
     },
     "menus": {
