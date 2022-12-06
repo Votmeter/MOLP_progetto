@@ -6,7 +6,7 @@ model Progetto
   forward procedure BPP_GP_output_MM
   forward procedure BPPGP_euristico
   forward procedure BPPGP_Multistart
-
+  forward procedure BPPGP_DoMe
   declarations
 
     n: integer !numero di item, integer
@@ -55,7 +55,7 @@ model Progetto
   end-initialisations
 
   !!!!!!MAIN!!!!!!!
-  max_iter := 10
+  max_iter := 500
 
 
   ! write(arrivo)
@@ -68,6 +68,27 @@ model Progetto
   ! Print_Status
   BPP_GP_output_MM
   !!!!!!!!!END MAIN !!!!!!!!!!
+  
+  procedure BPPGP_DoMe
+    declarations
+      improved: boolean
+      maxcap : integer ! capacità residua massima dei bin
+      uno: integer
+      unob: integer
+      check : boolean
+    end-declarations
+    
+    while (true) do
+      uno := ceil(random * l)
+      forall (k in archi) do
+        if(partenza(k) = uno) then
+          break
+        end-if
+        
+      end-do  
+    end-do
+    
+  end-procedure
 
   procedure BPPGP_Multistart
     declarations
