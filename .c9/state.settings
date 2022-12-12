@@ -1,6 +1,16 @@
 {
     "breakpoints": {
-        "json()": []
+        "json()": [
+            {
+                "path": "/Tesina 1 (post multistart).mos",
+                "line": 89,
+                "column": 6,
+                "text": "Tesina 1 (post multistart).mos",
+                "content": "      clist : array(items) of integer !Candidate  List del GRASP",
+                "time": 1670860776505,
+                "enabled": true
+            }
+        ]
     },
     "console": {
         "@expanded": true,
