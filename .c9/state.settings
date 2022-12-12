@@ -225,7 +225,7 @@
     },
     "tabs": {
         "json()": {
-            "focus": "tab0",
+            "focus": "/Tesina 1 (post multistart).mos",
             "meta": {
                 "accessList": [
                     "tab1",
@@ -239,12 +239,13 @@
                     "name": "tab1",
                     "path": "/Tesina 1 (post multistart).mos",
                     "className": [
-                        "tab1"
+                        "tab1",
+                        "focus"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1670856221864
+                            "timestamp": 1670863675633
                         },
                         "filter": true,
                         "title": "Tesina 1 (post multistart).mos",
@@ -264,7 +265,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1670853185035
+                            "timestamp": 1670853185077
                         },
                         "filter": true,
                         "title": "BPP_progettoMOLP.dat",

@@ -74,7 +74,7 @@ model Progetto
   ! Print_Status
   BPP_GP_output_MM
   !!!!!!!!!END MAIN !!!!!!!!!!
-  
+
 procedure BPPGP_GRASP
     declarations
       disp: array(items) of integer ! item che possono essere inseriti
@@ -86,10 +86,10 @@ procedure BPPGP_GRASP
       indice : integer
       fine : boolean !Booleano per controllare la fine del ciclo
       cap : integer
-      
+
       clist : array(items) of integer !Candidate  List del GRASP
-      
-      
+
+
       pmax : integer !massima valore sull'arco della precedenza
       cmax : integer
       swap : integer
@@ -99,7 +99,7 @@ procedure BPPGP_GRASP
     fine := false
     forall(i in items) sel(i) := 0
     forall(i in items) disp(i) := 1
-    
+
     forall(i in archi) disp(arrivo(i)) := 0
     forall(i in items) xeur(i):= 0
 
@@ -194,24 +194,24 @@ procedure BPPGP_GRASP
           end-if
         end-do
       end-if
-      
+
       while(true) do
         indice := ceil(random*n)
-        
-        if(clist(indice) = 1) then 
+
+        if(clist(indice) = 1) then
           break
         end-if
       end-do
-      
-      
-      
+
+
+
 
       if (pesi(indice) > cap) then
         zeur := zeur + 1
         cap := c - pesi(indice)
       else cap -= pesi(indice)
       end-if
-      
+
       writeln("zeur = ", zeur," cap = ", cap, " ->" )
 
       disp(indice) := 0 !togliamo la disponibilità di indice
@@ -220,7 +220,7 @@ procedure BPPGP_GRASP
       xeur(indice) := zeur
 
       !!!!!!!!!!!!AGGIORNAMENTO SEL!!!!!!!!!!
-      
+
       !!ciclo di controllo precedenze!!
       forall (i in items) controllati(i) := 0 !azzero gli item controllati
 
@@ -273,8 +273,8 @@ procedure BPPGP_GRASP
           end-if
         end-if
       end-do
-      
-      
+
+
       ! Ricerca locale qui
       forall (i in items)
         if (sel(i) = 0) then fine := false
@@ -292,7 +292,7 @@ procedure BPPGP_GRASP
 
   end-procedure
 
-  
+
   procedure BPPGP_LS
     declarations
       disp: array(items) of integer ! item che possono essere inseriti
@@ -304,7 +304,7 @@ procedure BPPGP_GRASP
       indice : integer
       fine : boolean !Booleano per controllare la fine del ciclo
       cap : integer
-      
+
       pmax : integer !massima valore sull'arco della precedenza
       cmax : integer
       swap : integer
@@ -314,7 +314,7 @@ procedure BPPGP_GRASP
     fine := false
     forall(i in items) sel(i) := 0
     forall(i in items) disp(i) := 1
-    
+
     forall(i in archi) disp(arrivo(i)) := 0
     forall(i in items) xeur(i):= 0
 
@@ -391,7 +391,7 @@ procedure BPPGP_GRASP
 
 
 
-      ! Qui  selezioniamo un indice 
+      ! Qui  selezioniamo un indice
       indice := 0 !lo dichiariamo a 0
       pmax := -1
       forall (i in items, j in archi ) do
@@ -400,14 +400,14 @@ procedure BPPGP_GRASP
             ! Qui aggiorniamo l'indice selezionato considerando il suo pval
             if (pval(j) > pmax) then
               write ("indice = " ,i, ", pval = ", pval(j), " -> ")
-              indice := i 
+              indice := i
               pmax := pval(j)
             end-if
           ! end-if
         end-if
       end-do
-      
-      write(" Scelgo ", indice," -> ")  
+
+      write(" Scelgo ", indice," -> ")
       if (indice = 0) then
         write( "indice = 0 ->")
         cmax := 0
@@ -417,8 +417,8 @@ procedure BPPGP_GRASP
           end-if
         end-do
       end-if
-      
-      if(indice = 0) then 
+
+      if(indice = 0) then
           while (true) do
 
         ! while (true) do ! trova un indice disponibile casualmente
@@ -428,9 +428,9 @@ procedure BPPGP_GRASP
             write ("Seleziono ", indice, " -> ")
             break
           end-if
-        end-do 
+        end-do
       end-if
-      
+
       if(random < 0.5 and ndisp >1 )then
         while (true) do
 
@@ -450,7 +450,7 @@ procedure BPPGP_GRASP
         cap := c - pesi(indice)
       else cap -= pesi(indice)
       end-if
-      
+
       writeln("zeur = ", zeur," cap = ", cap, " ->" )
 
       disp(indice) := 0 !togliamo la disponibilità di indice
@@ -459,7 +459,7 @@ procedure BPPGP_GRASP
       xeur(indice) := zeur
 
       !!!!!!!!!!!!AGGIORNAMENTO SEL!!!!!!!!!!
-      
+
       !!ciclo di controllo precedenze!!
       forall (i in items) controllati(i) := 0 !azzero gli item controllati
 
@@ -512,8 +512,8 @@ procedure BPPGP_GRASP
           end-if
         end-if
       end-do
-      
-      
+
+
       ! Ricerca locale qui
       forall (i in items)
         if (sel(i) = 0) then fine := false
@@ -532,7 +532,7 @@ procedure BPPGP_GRASP
   end-procedure
 
 
-  
+
   procedure BPPGP_Euristico_con_pval
     declarations
       disp: array(items) of integer ! item che possono essere inseriti
@@ -544,7 +544,7 @@ procedure BPPGP_GRASP
       indice : integer
       fine : boolean !Booleano per controllare la fine del ciclo
       cap : integer
-      
+
       pmax : integer !massima valore sull'arco della precedenza
       cmax : integer
     end-declarations
@@ -553,7 +553,7 @@ procedure BPPGP_GRASP
     fine := false
     forall(i in items) sel(i) := 0
     forall(i in items) disp(i) := 1
-    
+
     forall(i in archi) disp(arrivo(i)) := 0
     forall(i in items) xeur(i):= 0
 
@@ -628,7 +628,7 @@ procedure BPPGP_GRASP
 
 
 
-      ! Qui  selezioniamo un indice 
+      ! Qui  selezioniamo un indice
       indice := 0 !lo dichiariamo a 0
       pmax := -1
       forall (i in items, j in archi ) do
@@ -637,14 +637,14 @@ procedure BPPGP_GRASP
             ! Qui aggiorniamo l'indice selezionato considerando il suo pval
             if (pval(j) > pmax) then
               write ("indice = " ,i, ", pval = ", pval(j), " -> ")
-              indice := i 
+              indice := i
               pmax := pval(j)
             end-if
           ! end-if
         end-if
       end-do
-      
-      write(" Scelgo ", indice," -> ")  
+
+      write(" Scelgo ", indice," -> ")
       if (indice = 0) then
         write( "indice = 0 ->")
         cmax := 0
@@ -654,8 +654,8 @@ procedure BPPGP_GRASP
           end-if
         end-do
       end-if
-      
-      if(indice = 0) then 
+
+      if(indice = 0) then
         while (true) do
 
         ! while (true) do ! trova un indice disponibile casualmente
@@ -665,7 +665,7 @@ procedure BPPGP_GRASP
             write ("Seleziono ", indice, " -> ")
             break
           end-if
-        end-do 
+        end-do
       end-if
 
       if (pesi(indice) > cap) then
@@ -673,7 +673,7 @@ procedure BPPGP_GRASP
         cap := c - pesi(indice)
       else cap -= pesi(indice)
       end-if
-      
+
       writeln("zeur = ", zeur," cap = ", cap, " ->" )
 
       disp(indice) := 0 !togliamo la disponibilità di indice
@@ -682,7 +682,7 @@ procedure BPPGP_GRASP
       xeur(indice) := zeur
 
       !!!!!!!!!!!!AGGIORNAMENTO SEL!!!!!!!!!!
-      
+
       !!ciclo di controllo precedenze!!
       forall (i in items) controllati(i) := 0 !azzero gli item controllati
 
@@ -735,8 +735,8 @@ procedure BPPGP_GRASP
           end-if
         end-if
       end-do
-      
-      
+
+
       ! Ricerca locale qui
       forall (i in items)
         if (sel(i) = 0) then fine := false
@@ -754,7 +754,7 @@ procedure BPPGP_GRASP
 
   end-procedure
 
-  
+
 
   procedure BPPGP_Multistart
     declarations
@@ -914,7 +914,7 @@ procedure BPPGP_GRASP
 
 
       !!!!!!!!!!!!AGGIORNAMENTO SEL!!!!!!!!!!
-      
+
       !!ciclo di controllo precedenze!!
       forall (i in items) controllati(i) := 0 !azzero gli item controllati
 
@@ -967,8 +967,8 @@ procedure BPPGP_GRASP
           end-if
         end-if
       end-do
-      
-      
+
+
       ! Ricerca locale qui
       forall (i in items)
         if (sel(i) = 0) then fine := false
