@@ -81,7 +81,6 @@ procedure BPPGP_GRASP
       sel: array(items) of integer ! item che sono già stati selezionati
       getdisp : boolean ! ho items da prendere
       controllati: array(items) of integer ! item già controllati in arrivo
-      checking: integer !item in arrivo che sto controllando
       check_result: boolean !esito del checking -> true può diventare disponibile
       indice : integer
       fine : boolean !Booleano per controllare la fine del ciclo
@@ -109,78 +108,47 @@ procedure BPPGP_GRASP
       getdisp := false
       ndisp := 0
       forall (i in items) clist(i) := 0
-      !Ciclo per controllare la disponibilità di item da selezionare
       forall (o in items) do
         if (disp(o) = 1) then
-          write(o, " è disponibile -> ")
+          ! write(o, " è disponibile -> ")
           getdisp := true
-          ndisp +=1
+          ndisp +=1 !Contiamo il numero di items disponibili
         end-if
       end-do
 
-      !Ciclo che viene percorso solamente in caso di non disponibilità: apre un nuovo bin se necessario
       while(not getdisp) do
         zeur += 1
-        writeln("Costretto ad aprire ", zeur, " -> ")
-
-        forall (i in items) controllati(i) := 0 !azzero gli item controllati
+        ! writeln("Costretto ad aprire ", zeur, " -> ")
+        forall (i in items) controllati(i) := 0
         forall(i in archi) do
-          if (sel(arrivo(i)) <> 1) then
-          !controllo solo gli item in arrivo che non ho già selezionati;va fatto prima del prossimo per poter azzerare sempre i controllati
-            if (controllati(arrivo(i)) <> 1) then
-              check_result := true !Inizialmente può essere inserito, se fallisce i controlli no
-              checking := arrivo(i) !Sto controllanto l'item arrivo(i)
-
-              !##### Ecco la ciccia: i controlli #####!
-              forall(h in archi) do
-
-                if (items(arrivo(h)) = checking) then
-                  !quando nell'array arrivo trovo l'item che stiamo controllando ->
-                  if (sel(partenza(h)) <> 1) then
-                    ! Se la partenza non è stata selezionata -> il controllo fallisce
+          if (sel(arrivo(i)) <> 1 and controllati(arrivo(i)) <> 1) then
+              check_result := true
+              forall(h in archi, j in bins) do
+                if (items(arrivo(h)) = arrivo(i) and (sel(partenza(h)) <> 1 or (xeur(partenza(h)) = j and zeur - pval(h) - j < 0))) then
                     check_result := false
                     break
-                  end-if
-                  !Questo punto del codice viene raggiunto solamentese tutte gli item con precedenze sono stati già assegnati
-
-                  forall(j in bins) do
-                    !Facciamo ruotare la variabile j sui bin ->
-                    if (xeur(partenza(h)) = j and zeur - pval(h) - j < 0) then
-                      !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [j],
-                      !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [j]
-                      !sia maggiore o uguale a zero -> sia passato abbastanza tempo
-                      !altrimenti il controllo fallisce
-                      check_result := false
-                      break
-
-                    end-if
-                  end-do
-                  if(not check_result) then break
-                  end-if
                 end-if
               end-do
-
               if (check_result) then
-              !Qui, se i controlli non sono falliti, aggiorniamo la disponibilità -> nel prossimo passaggio possiamo prendere quell'item che stava in arrivo
                 disp (arrivo(i)) := 1
                 getdisp := true
-                ndisp +=1
-              !Altrimenti consideriamo semplicemente controllato l'arrivo a questo item
-              controllati(arrivo(i)) := 1
+                ndisp += 1
               end-if
-            end-if
+              controllati(arrivo(i)) := 1
           end-if
         end-do
-
       end-do
 
       pmax := 0
+      !Sugli archi uscenti dagli item disponibili vogliamo individuare il valore massimo
       forall (i in archi, j in items) do
         ! aggiorniamo una variabile pmax che trovi il massimo dei pval
         if(pval(i) > pmax and disp(j) = 1 and sel(j) = 0 and partenza(i) = j) then
           pmax := pval(i)
         end-if
       end-do
+      ! Se pmax - 2 è maggiore di 0 inseriamo nella candidate list tutti gli item (disponibili) da cui parte un arco con valore di
+      ! precedenza maggiore a pmax - 2
       if(pmax - 2 >= 0) then
         forall (j in items, i in archi) do
           if(pval(i) >= (pmax - 2) and disp(j) = 1 and sel(j) = 0 and partenza(i) = j) then
@@ -188,108 +156,61 @@ procedure BPPGP_GRASP
           end-if
         end-do
       else
+      ! Se pmax - 2 < 0 mettiamo tutti i disponibili nella candidate list
         forall(i in items) do
           if(disp(i) = 1) then
             clist(i) := 1
           end-if
         end-do
       end-if
-
+      ! selezioniamo un item casuale presente nella candidate list
       while(true) do
         indice := ceil(random*n)
-
         if(clist(indice) = 1) then
           break
         end-if
       end-do
-
-
-
-
+      
       if (pesi(indice) > cap) then
         zeur := zeur + 1
         cap := c - pesi(indice)
       else cap -= pesi(indice)
       end-if
-
-      writeln("zeur = ", zeur," cap = ", cap, " ->" )
-
-      disp(indice) := 0 !togliamo la disponibilità di indice
+      ! writeln("zeur = ", zeur," cap = ", cap, " ->" )
+      disp(indice) := 0 
       sel(indice) := 1
-
       xeur(indice) := zeur
-
-      !!!!!!!!!!!!AGGIORNAMENTO SEL!!!!!!!!!!
-
-      !!ciclo di controllo precedenze!!
-      forall (i in items) controllati(i) := 0 !azzero gli item controllati
-
+      
+      forall (i in items) controllati(i) := 0
+      
       forall(i in archi) do
-        if (sel(arrivo(i)) <> 1) then
-        !controllo solo gli item in arrivo che non ho già selezionati;va fatto prima del prossimo per poter azzerare sempre i controllati
-          if (controllati(arrivo(i)) <> 1) then
-            check_result := true !Inizialmente può essere inserito, se fallisce i controlli no
-            checking := arrivo(i) !Sto controllanto l'item arrivo(i)
-            ! writeln("checnking: ", checking)
-
-            !##### Ecco la ciccia: i controlli #####!
-            forall(h in archi) do
-
-              if (items(arrivo(h)) = checking) then
-                !quando nell'array arrivo trovo l'item che stiamo controllando ->
-                if (sel(partenza(h)) <> 1) then
-                  ! Se la partenza non è stata selezionata -> il controllo fallisce
+        if (sel(arrivo(i)) <> 1 and controllati(arrivo(i)) <> 1) then
+            check_result := true
+            forall(h in archi, j in bins) do
+              if (items(arrivo(h)) = arrivo(i) and (sel(partenza(h)) <> 1 or (xeur(partenza(h)) = j and zeur - pval(h) - j < 0))) then
                   check_result := false
                   break
-                end-if
-                !Questo punto del codice viene raggiunto solamentese tutte gli item con precedenze sono stati già assegnati
-
-                forall(j in bins) do
-                  !Facciamo ruotare la variabile j sui bin ->
-                  if (xeur(partenza(h)) = j and zeur - pval(h) - j < 0) then
-                    !Se ho assegnato l'item che sto controllando [partenza(h)] al bin numero [j],
-                    !controllo che il numero del bin attuale [zeur] - il peso della precedenza [pval(h)] - il numero del bin dell'item con precedenza [j]
-                    !sia maggiore o uguale a zero -> sia passato abbastanza tempo
-                    !altrimenti il controllo fallisce
-                    check_result := false
-                    break
-
-                  end-if
-                end-do
-
-                if(not check_result) then break
-                end-if
               end-if
             end-do
-
             if (check_result) then
-            !Qui, se i controlli non sono falliti, aggiorniamo la disponibilità -> nel prossimo passaggio possiamo prendere quell'item che stava in arrivo
               disp (arrivo(i)) := 1
-              ! writeln("diventa disponibile ", arrivo(i))
             end-if
-            !Altrimenti consideriamo semplicemente controllato l'arrivo a questo item
             controllati(arrivo(i)) := 1
-
-          end-if
         end-if
       end-do
 
-
-      ! Ricerca locale qui
       forall (i in items)
         if (sel(i) = 0) then fine := false
         end-if
 
     end-do
-
-    write("SOLUZIONE EURISTICO COSTRUTTIVO, con criterio GRASP")
-    writeln("\tZEUR = ",zeur)
-    ! forall(i, j in xeur)
-    !   if(xeur(i, j) > eps) then
-    !     write("x(", i,", ", j, " = 1")
-    !   end-if
-
-
+    writeln("SOLUZIONE EURISTICO COSTRUTTIVO, con criterio GRASP")
+    writeln("\tZEUR [GRASP] = ",zeur)
+    write("\t")
+    forall(i in items) do
+        write("(", i,", ",xeur(i),"); ")
+    end-do
+    writeln
   end-procedure
 
 
