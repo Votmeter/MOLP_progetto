@@ -19,8 +19,8 @@
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab0",
                     "tab2",
+                    "tab0",
                     "tab3"
                 ]
             },
@@ -103,8 +103,8 @@
                             "timestamp": 1670853185062
                         },
                         "filter": true,
-                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
-                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
+                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
+                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
                         "output": {
                             "id": "output20500",
                             "width": 1304,
@@ -141,7 +141,7 @@
             "@menu": 3,
             "@menuitem": 8,
             "@pane": 2,
-            "@session": 5,
+            "@session": 3,
             "@tab": 1,
             "@undoManager": 5,
             "@welcome": 1
@@ -162,7 +162,7 @@
         }
     },
     "menus": {
-        "@minimized": "false"
+        "@minimized": false
     },
     "nak": {
         "@installed": true
@@ -249,7 +249,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1670956114119
+                            "timestamp": 1670956114185
                         },
                         "filter": true,
                         "title": "Tesina 1 (post multistart).mos",
