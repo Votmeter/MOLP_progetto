@@ -16,7 +16,8 @@ model Progetto
     l: integer !numero di archi
     c : integer ! capacità dei bin
 
-    inputfile = "BPP_progettoMOLP.dat" !nome del file
+    ! inputfile = "BPP_progettoMOLP.dat" !nome del file
+    inputfile = "n_20_pval.dat"
 
   end-declarations
 
@@ -62,11 +63,11 @@ model Progetto
 
 
   ! write(arrivo)
-  ! BPPGP_euristico
+  BPPGP_euristico
   ! BPPGP_Multistart
   ! BPPGP_Euristico_con_pval
   ! BPPGP_LS
-  BPPGP_GRASP
+  ! BPPGP_GRASP
   modello_matematico
   t1 := gettime
   minimize(z)
@@ -737,6 +738,7 @@ procedure BPPGP_GRASP
       !Ciclo che viene percorso solamente in caso di non disponibilità: apre un nuovo bin se necessario
       while(not getdisp) do
         zeur += 1
+        cap := c
         writeln("Costretto ad aprire ", zeur, " -> ")
 
         forall (i in items) controllati(i) := 0 !azzero gli item controllati
