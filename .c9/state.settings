@@ -9,6 +9,15 @@
                 "content": "      clist : array(items) of integer !Candidate  List del GRASP",
                 "time": 1670860776505,
                 "enabled": true
+            },
+            {
+                "path": "/Tesina 1 (post multistart).mos",
+                "line": 827,
+                "column": 2,
+                "text": "Tesina 1 (post multistart).mos",
+                "content": "  procedure Print_Status",
+                "time": 1671818589114,
+                "enabled": true
             }
         ]
     },
@@ -65,14 +74,17 @@
                         "tab3"
                     ],
                     "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1670161593031
+                        },
                         "filter": true,
-                        "title": "Tesina\\ 1.mos - Idle",
-                        "tooltip": "Tesina\\ 1.mos - Idle",
+                        "title": "Tesina\\ 1.mos - Stopped",
+                        "tooltip": "Tesina\\ 1.mos - Stopped",
                         "output": {
                             "id": "output534240",
                             "width": 1484,
                             "height": 241,
-                            "scrollTop": -1,
                             "config": {
                                 "runner": "Mosel",
                                 "command": "Tesina\\ 1.mos",
@@ -80,12 +92,7 @@
                                 "toolbar": true,
                                 "name": ""
                             }
-                        },
-                        "hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-                        "meta": {
-                            "timestamp": 1670161593031
-                        },
-                        "changed": false
+                        }
                     },
                     "editorType": "output",
                     "active": false
@@ -107,7 +114,7 @@
                         "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
                         "output": {
                             "id": "output20500",
-                            "width": 1304,
+                            "width": 1484,
                             "height": 241,
                             "config": {
                                 "runner": "Mosel",
@@ -133,7 +140,7 @@
             "@acestatus": 1,
             "@base-step-wizard": 2,
             "@divider": 4,
-            "@document": 6,
+            "@document": 8,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -141,9 +148,9 @@
             "@menu": 3,
             "@menuitem": 8,
             "@pane": 2,
-            "@session": 6,
-            "@tab": 6,
-            "@undoManager": 6,
+            "@session": 8,
+            "@tab": 7,
+            "@undoManager": 8,
             "@welcome": 1
         }
     },
@@ -157,8 +164,8 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": false,
-            "@minimized": true
+            "@maximized": true,
+            "@minimized": false
         }
     },
     "menus": {
@@ -168,17 +175,18 @@
         "@installed": true
     },
     "od": {
-        "@last-run-config": "path:Tesina 1.mos"
+        "@last-run-config": "path:Tesina 1 (post multistart).mos"
     },
     "panecycle": {
         "json()": [
-            "tab1",
+            "tab6",
             "tab0"
         ]
     },
     "panels": {
         "@active-left": "tree",
         "@active-right": "none",
+        "@width-left": 0,
         "commands.panel": {
             "@enabled": "false",
             "@name": "commands.panel"
@@ -227,39 +235,22 @@
             ]
         }
     },
+    "recentfiles": {
+        "json()": []
+    },
     "tabs": {
         "json()": {
             "focus": "/Tesina 1 (post multistart).mos",
             "meta": {
                 "accessList": [
+                    "tab6",
                     "tab1",
-                    "tab5",
-                    "tab4"
+                    "tab4",
+                    "tab5"
                 ]
             },
             "name": "pane0",
             "nodes": [
-                {
-                    "type": "tab",
-                    "name": "tab1",
-                    "path": "/Tesina 1 (post multistart).mos",
-                    "className": [
-                        "tab1",
-                        "focus"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1671465808704
-                        },
-                        "filter": true,
-                        "title": "Tesina 1 (post multistart).mos",
-                        "tooltip": "/Tesina 1 (post multistart).mos",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": true
-                },
                 {
                     "type": "tab",
                     "name": "tab4",
@@ -290,7 +281,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1671466296456
+                            "timestamp": 1671466296542
                         },
                         "filter": true,
                         "title": "n_20_pval.dat",
@@ -299,6 +290,47 @@
                     },
                     "editorType": "ace",
                     "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "/Tesina 1.mos",
+                    "className": [
+                        "tab1"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1670321585657
+                        },
+                        "filter": true,
+                        "title": "Tesina 1.mos",
+                        "tooltip": "/Tesina 1.mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab6",
+                    "path": "/Tesina 1 (post multistart).mos",
+                    "className": [
+                        "tab6",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1671815137862
+                        },
+                        "filter": true,
+                        "title": "Tesina 1 (post multistart).mos",
+                        "tooltip": "/Tesina 1 (post multistart).mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
                 }
             ],
             "skin": "editor_tab",
@@ -308,7 +340,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/n_20_pval.dat"
+            "/Tesina 1 (post multistart).mos"
         ]
     },
     "welcome": {
