@@ -1,7 +1,7 @@
 model Progetto
   options noimplicit
-  uses "mmxprs", "mmsystem"
-  ! forward procedure Print_Status
+  uses "mmxprs", "mmsystem", "mmsvg"
+  forward procedure Print_Status
   forward procedure modello_matematico
   forward procedure BPP_GP_output_MM
   forward procedure BPPGP_euristico
@@ -9,6 +9,7 @@ model Progetto
   forward procedure BPPGP_Euristico_con_pval
   forward procedure BPPGP_LS
   forward procedure BPPGP_GRASP
+  forward procedure BPPGP_Rappresentazione_Grafica
   declarations
 
     n: integer !numero di item, integer
@@ -29,6 +30,7 @@ model Progetto
   end-initialisations
 
   declarations
+    solution_status: string !stato del problema
     items = 1..n !range degli items
     bins = 1..m !range dei bins
     archi = 1..l ! range degli archi
@@ -62,19 +64,17 @@ model Progetto
   max_iter := 500
 
 
-  ! write(arrivo)
-  ! BPPGP_euristico
+  BPPGP_euristico
   ! BPPGP_Multistart
   ! BPPGP_Euristico_con_pval
   ! BPPGP_LS
-  BPPGP_GRASP
-  modello_matematico
-  t1 := gettime
-  minimize(z)
-  t2 := gettime
+  ! BPPGP_GRASP
+  ! modello_matematico
+
   
-  ! Print_Status
+  Print_Status
   BPP_GP_output_MM
+  BPPGP_Rappresentazione_Grafica
   !!!!!!!!!END MAIN !!!!!!!!!!
 
   procedure BPPGP_GRASP
@@ -91,6 +91,7 @@ model Progetto
       swap : integer
       clist : array(items) of integer !Candidate  List del GRASP
     end-declarations
+    t1 := gettime
     zeur := 1
     fine := false
     ndisp := 0
@@ -203,11 +204,12 @@ model Progetto
           break
         end-if
     end-do
+    t2 := gettime
     writeln("SOLUZIONE EURISTICO COSTRUTTIVO, con criterio GRASP")
+    writeln ("tempo impiegato = ", t2 - t1) 
     writeln("\tZEUR [GRASP] = ",zeur)
-    write("\t")
     forall(i in items) do
-        write("(", i,", ",xeur(i),"); ")
+        writeln("\t(item ", i,", bin ",xeur(i),"); ")
     end-do
     writeln
   end-procedure
@@ -227,6 +229,7 @@ model Progetto
       ndisp : integer                                       ! Numero di item a disponibili per la selezione
       swap : integer                                        ! Indice dell'item con cui sostituire il selezionato
     end-declarations
+    t1 := gettime
     zeur := 1
     fine := false
     ndisp := 0
@@ -348,15 +351,10 @@ model Progetto
           break
         end-if
     end-do
-
-    write("SOLUZIONE EURISTICO COSTRUTTIVO, con LOCAL SEARCH")
-    writeln("\tZEUR = ",zeur)
-    ! forall(i, j in xeur)
-    !   if(xeur(i, j) > eps) then
-    !     write("x(", i,", ", j, " = 1")
-    !   end-if
-
-
+    t2 := gettime
+    writeln ("SOLUZIONE EURISTICO COSTRUTTIVO, con LOCAL SEARCH")
+    writeln ("tempo impiegato = ", t2 - t1)
+    writeln("\tZEUR = ", zeur)
   end-procedure
 
   procedure BPPGP_Euristico_con_pval
@@ -372,6 +370,7 @@ model Progetto
       pvalmax : integer                                   ! Variabile per il confronto dei pval tra gli archi di precedenza
       pesomax : integer                                   ! Variabile per il confronto dei pesi tra gli item
     end-declarations
+    t1 := gettime
     zeur := 1
     fine := false
     forall(i in items) sel(i) := 0
@@ -492,12 +491,15 @@ model Progetto
           break
         end-if
     end-do
-    writeln("SOLUZIONE")
+    t2 := gettime
+    writeln ("SOLUZIONE")
+    writeln ("tempo impiegato = ", t2 - t1)
     writeln("euristico costruttivo con PVAL")
     writeln("\tzeur = ",zeur)
   end-procedure
 
   procedure BPPGP_Multistart
+    t1 := gettime
     zbest := zeur
     xbest := xeur
     forall (iterazione in 1..max_iter) do
@@ -507,7 +509,9 @@ model Progetto
         xbest := xeur
       end-if
     end-do
+    t2 := gettime
     writeln ("SOLUZIONE MULTISTART")
+    writeln ("tempo impiegato = ", t2-t1)
     writeln ("\tzbest = ", zbest)
   end-procedure
 
@@ -522,7 +526,7 @@ model Progetto
       fine : boolean                            ! assume valore false quando ho selezionato tutti gli item
       cap : integer                             ! capacità residua del bin corrente
     end-declarations
-
+    t1 := gettime
     ! condizioni necessarie per iniziare l'euristico:
     fine := false
     forall(i in items) sel(i) := 0              ! Nessun item è inizialmente selezionato
@@ -618,7 +622,9 @@ model Progetto
           break
         end-if
     end-do
+    t2 := gettime
     writeln("SOLUZIONE")
+    writeln("tempo impiegato = ", t2 - t1)
     writeln("euristico costruttivo RANDOM")
     writeln("\tzeur = ",zeur)
   end-procedure
@@ -637,23 +643,28 @@ model Progetto
       y(i) is_binary                                                                          ! (6)
     forall (i in bins, j in items) 
       x(i, j) is_binary                                                                       ! (7)
+    !Fine del modello matematico
+    t1 := gettime
+    minimize(z)
+    t2 := gettime
   end-procedure
 
-  ! procedure Print_Status
-  !   !restituisce lo stato del problema e quindi la natura della soluzione ottenuta
-  !   case getprobstat of
-  !     XPRS_OPT: solution_status:="Optimum found"
-  !     XPRS_UNF: solution_status:="Unfinished"
-  !     XPRS_INF: solution_status:="Infeasible"
-  !     XPRS_UNB: solution_status:="Unbounded"
-  !     XPRS_OTH: solution_status:="Failed"
-  !     else solution_status:="???"
-  !   end-case
-  !   writeln("Problem status: ", solution_status)
-  ! end-procedure
+  procedure Print_Status
+    !restituisce lo stato del problema e quindi la natura della soluzione ottenuta
+    case getprobstat of
+      XPRS_OPT: solution_status:="Optimum found"
+      XPRS_UNF: solution_status:="Unfinished"
+      XPRS_INF: solution_status:="Infeasible"
+      XPRS_UNB: solution_status:="Unbounded"
+      XPRS_OTH: solution_status:="Failed"
+      else solution_status:="???"
+    end-case
+    writeln("Problem status: ", solution_status)
+  end-procedure
 
   procedure BPP_GP_output_MM
     writeln("SOLUZIONE")
+    writeln ("tempo impiegato = ",t2-t1)
     writeln("\tz = ", getobjval)
     forall(i in bins) do
       if (getsol(y(i)) > eps) then
@@ -666,4 +677,52 @@ model Progetto
     end-do
   end-procedure
 
+  procedure BPPGP_Rappresentazione_Grafica
+    declarations
+      cont: integer
+      p: integer
+    end-declarations
+    svgaddgroup("b", "Bins", SVG_GRAY)
+    svgsetstyle("b", SVG_STROKE, SVG_BLACK)
+    svgsetstyle("b", SVG_STROKEWIDTH, 0.05)
+    svgsetstyle("b", SVG_FILL, SVG_GRAY)
+
+    svgaddgroup("i", "Items", SVG_LIME)
+    svgsetstyle("i", SVG_STROKE, SVG_BLACK)
+    svgsetstyle("i", SVG_STROKEWIDTH, 0.05)
+    svgsetstyle("i", SVG_FILL, SVG_LIME)
+    
+    ! svgaddgroup("ti", SVG_RED)
+    ! svgsetstyle("ti", SVG_FONTSIZE,"5px")
+    
+    svgsetgraphviewbox(0,0,zeur,c)
+    svgsetgraphlabels("Bins", "Capacity")
+    ! svgaddrectangle("b", 0, 0, 1, c)
+    ! svgaddrectangle("i", 0, 0, 1, 150)
+    ! cont := 150
+    ! p := 200
+    ! svgaddrectangle("i", 0, cont, 1, p)
+    ! svgaddtext(0.25, cont + p/2, "io")
+    
+    forall (b in 1..(zeur+1)) do
+      cont := 0
+      svgaddrectangle("b", (b-1), 0, 1, c)
+      forall (i in items) do
+        if (xeur(i) = b) then
+          writeln("Item: ", i, ", bin: ", xeur(i),") -> peso = ", pesi(i))
+          svgaddrectangle("i", (b-1), cont, 1, pesi(i))
+          cont += pesi(i)
+        end-if
+      end-do
+    end-do
+
+    
+    ! forall (i in 0..5)
+    ! svgaddrectangle("b", i, 0, 1, 20)
+
+
+    
+    svgrefresh
+    svgwaitclose
+  end-procedure
 end-model

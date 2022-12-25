@@ -1,35 +1,16 @@
 {
     "breakpoints": {
-        "json()": [
-            {
-                "path": "/Tesina 1 (post multistart).mos",
-                "line": 88,
-                "column": 6,
-                "text": "Tesina 1 (post multistart).mos",
-                "content": "      clist : array(items) of integer !Candidate  List del GRASP",
-                "time": 1670860776505,
-                "enabled": true
-            },
-            {
-                "path": "/Tesina 1 (post multistart).mos",
-                "line": 641,
-                "column": 2,
-                "text": "Tesina 1 (post multistart).mos",
-                "content": "  procedure Print_Status",
-                "time": 1671818589114,
-                "enabled": true
-            }
-        ]
+        "json()": []
     },
     "console": {
         "@expanded": true,
-        "@height": 306.60003662109375,
+        "@height": 181.60003662109375,
         "@maximized": "false",
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab2",
                     "tab0",
+                    "tab2",
                     "tab3"
                 ]
             },
@@ -104,8 +85,7 @@
                     "name": "tab0",
                     "path": "",
                     "className": [
-                        "tab0",
-                        "connecting"
+                        "tab0"
                     ],
                     "document": {
                         "changed": false,
@@ -113,12 +93,12 @@
                             "timestamp": 1670853185062
                         },
                         "filter": true,
-                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
-                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
+                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
+                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
                         "output": {
                             "id": "output20500",
-                            "width": 1304,
-                            "height": 281,
+                            "width": 1466,
+                            "height": 156,
                             "config": {
                                 "runner": "Mosel",
                                 "command": "Tesina\\ 1\\ \\(post\\ multistart\\).mos",
@@ -143,7 +123,7 @@
             "@acestatus": 1,
             "@base-step-wizard": 2,
             "@divider": 4,
-            "@document": 7,
+            "@document": 9,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -151,9 +131,9 @@
             "@menu": 3,
             "@menuitem": 8,
             "@pane": 2,
-            "@session": 5,
-            "@tab": 7,
-            "@undoManager": 7,
+            "@session": 9,
+            "@tab": 9,
+            "@undoManager": 9,
             "@welcome": 1
         }
     },
@@ -168,7 +148,9 @@
         "window": {
             "@fullscreen": false,
             "@maximized": true,
-            "@minimized": false
+            "@minimized": false,
+            "@position": "-7:0",
+            "@size": "764:835"
         }
     },
     "menus": {
@@ -189,7 +171,7 @@
     "panels": {
         "@active-left": "tree",
         "@active-right": "none",
-        "@width-left": 0,
+        "@width-left": 18,
         "commands.panel": {
             "@enabled": "false",
             "@name": "commands.panel"
@@ -397,7 +379,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1671962874867
+                            "timestamp": 1671994640724
                         },
                         "filter": true,
                         "title": "Tesina 1 (post multistart).mos",
