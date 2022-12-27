@@ -4,13 +4,13 @@
     },
     "console": {
         "@expanded": true,
-        "@height": 181.60003662109375,
+        "@height": 243.60000610351562,
         "@maximized": "false",
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab0",
                     "tab2",
+                    "tab0",
                     "tab3"
                 ]
             },
@@ -29,8 +29,8 @@
                         "tooltip": "Compile - Idle",
                         "output": {
                             "id": "build",
-                            "width": 1484,
-                            "height": 241,
+                            "width": 1254,
+                            "height": 320,
                             "scrollTop": -1,
                             "config": {
                                 "name": "Compile",
@@ -97,8 +97,8 @@
                         "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
                         "output": {
                             "id": "output20500",
-                            "width": 1466,
-                            "height": 156,
+                            "width": 1254,
+                            "height": 218,
                             "config": {
                                 "runner": "Mosel",
                                 "command": "Tesina\\ 1\\ \\(post\\ multistart\\).mos",
@@ -123,17 +123,18 @@
             "@acestatus": 1,
             "@base-step-wizard": 2,
             "@divider": 4,
-            "@document": 9,
+            "@document": 8,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
             "@form": 4,
+            "@imgeditor": 1,
             "@menu": 3,
             "@menuitem": 8,
             "@pane": 2,
-            "@session": 9,
-            "@tab": 9,
-            "@undoManager": 9,
+            "@session": 6,
+            "@tab": 11,
+            "@undoManager": 8,
             "@welcome": 1
         }
     },
@@ -147,8 +148,8 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": true,
-            "@minimized": false,
+            "@maximized": false,
+            "@minimized": true,
             "@position": "-7:0",
             "@size": "764:835"
         }
@@ -171,7 +172,7 @@
     "panels": {
         "@active-left": "tree",
         "@active-right": "none",
-        "@width-left": 18,
+        "@width-left": 230,
         "commands.panel": {
             "@enabled": "false",
             "@name": "commands.panel"
@@ -216,7 +217,10 @@
     "projecttree": {
         "expanded": {
             "json()": [
-                "/"
+                "/",
+                "/Istanze",
+                "/Istanze/n=50",
+                "/Istanze/n=100"
             ]
         }
     },
@@ -230,8 +234,7 @@
                 "accessList": [
                     "tab6",
                     "tab4",
-                    "tab5",
-                    "tab1"
+                    "tab5"
                 ]
             },
             "name": "pane0",
@@ -244,39 +247,38 @@
                         "tab4"
                     ],
                     "document": {
-                        "filter": true,
-                        "title": "BPP_progettoMOLP.dat",
-                        "tooltip": "/BPP_progettoMOLP.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 4,
-                                    "column": 9
-                                },
-                                "end": {
-                                    "row": 4,
-                                    "column": 10
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "d3606aacb63e9baf65edc30bccf1bdf8d5954f8d",
+                        "changed": false,
                         "meta": {
                             "timestamp": 1670853185077
                         },
-                        "changed": false
+                        "filter": true,
+                        "title": "BPP_progettoMOLP.dat",
+                        "tooltip": "/BPP_progettoMOLP.dat",
+                        "ace": {}
                     },
                     "editorType": "ace",
                     "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab6",
+                    "path": "/Tesina 1 (post multistart).mos",
+                    "className": [
+                        "tab6",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672147976338
+                        },
+                        "filter": true,
+                        "title": "Tesina 1 (post multistart).mos",
+                        "tooltip": "/Tesina 1 (post multistart).mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
                 },
                 {
                     "type": "tab",
@@ -295,12 +297,12 @@
                             "scrollleft": 0,
                             "selection": {
                                 "start": {
-                                    "row": 8,
-                                    "column": 0
+                                    "row": 6,
+                                    "column": 27
                                 },
                                 "end": {
-                                    "row": 8,
-                                    "column": 0
+                                    "row": 6,
+                                    "column": 27
                                 },
                                 "isBackwards": false
                             },
@@ -310,7 +312,7 @@
                                 "wrapToView": true
                             },
                             "firstLineState": {
-                                "row": 353,
+                                "row": 679,
                                 "mode": "ace/mode/text"
                             }
                         },
@@ -322,72 +324,6 @@
                     },
                     "editorType": "ace",
                     "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab1",
-                    "path": "/Tesina 1.mos",
-                    "className": [
-                        "tab1"
-                    ],
-                    "document": {
-                        "filter": true,
-                        "title": "Tesina 1.mos",
-                        "tooltip": "/Tesina 1.mos",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 646.5,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 0,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 0,
-                                    "column": 0
-                                },
-                                "isBackwards": true
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": {
-                                "row": 739,
-                                "mode": "plugins/fico.ide.language.mosel/mode/mosel"
-                            }
-                        },
-                        "hash": "dad1b296f81fbf79849e36720d3dca040a971059",
-                        "meta": {
-                            "timestamp": 1670321585657
-                        },
-                        "changed": false
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab6",
-                    "path": "/Tesina 1 (post multistart).mos",
-                    "className": [
-                        "tab6",
-                        "focus"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1671994640724
-                        },
-                        "filter": true,
-                        "title": "Tesina 1 (post multistart).mos",
-                        "tooltip": "/Tesina 1 (post multistart).mos",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": true
                 }
             ],
             "skin": "editor_tab",
@@ -397,7 +333,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/Tesina 1 (post multistart).mos"
+            "/graph502.svg"
         ]
     },
     "welcome": {

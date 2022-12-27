@@ -10,6 +10,7 @@ model Progetto
   forward procedure BPPGP_LS
   forward procedure BPPGP_GRASP
   forward procedure BPPGP_Rappresentazione_Grafica
+  ! forward procedure pazzia
   declarations
 
     n: integer !numero di item, integer
@@ -18,7 +19,7 @@ model Progetto
     c : integer ! capacità dei bin
 
     ! inputfile = "BPP_progettoMOLP.dat" !nome del file
-    inputfile = "n_20_pval.dat"
+    inputfile = "Istanze/n=100/n=100(2).dat"
 
   end-declarations
 
@@ -68,10 +69,11 @@ model Progetto
   ! BPPGP_Multistart
   ! BPPGP_Euristico_con_pval
   ! BPPGP_LS
-  ! BPPGP_GRASP
+  BPPGP_GRASP
   ! modello_matematico
+  ! pazzia
 
-  
+
   Print_Status
   BPP_GP_output_MM
   BPPGP_Rappresentazione_Grafica
@@ -171,7 +173,7 @@ model Progetto
       end-do
       write("Seleziono ", indice, " -> ")
       ! La restante parte del codice equivale all'euristico costruttivo RANDOM
-      if (pesi(indice) <= cap) then 
+      if (pesi(indice) <= cap) then
         cap -= pesi(indice)
       else
         zeur := zeur + 1
@@ -195,23 +197,23 @@ model Progetto
           if (check_result) then
             disp (arrivo(i)) := 1
           end-if
-          controllati(arrivo(i)) := 1 
+          controllati(arrivo(i)) := 1
         end-if
       end-do
       forall (i in items)
-        if (sel(i) = 0) then 
+        if (sel(i) = 0) then
           fine := false
           break
         end-if
     end-do
     t2 := gettime
     writeln("SOLUZIONE EURISTICO COSTRUTTIVO, con criterio GRASP")
-    writeln ("tempo impiegato = ", t2 - t1) 
+    writeln ("tempo impiegato = ", t2 - t1)
     writeln("\tZEUR [GRASP] = ",zeur)
-    forall(i in items) do
-        writeln("\t(item ", i,", bin ",xeur(i),"); ")
-    end-do
-    writeln
+    ! forall(i in items) do
+    !     writeln("\t(item ", i,", bin ",xeur(i),"); ")
+    ! end-do
+    ! writeln
   end-procedure
 
   procedure BPPGP_LS
@@ -304,7 +306,7 @@ model Progetto
           end-if
         end-do
         write( "Peso -> ",indice," -> ")
-      end-if      
+      end-if
       ! Lo SWAP avviene dopo la selezione "con criterio" dell'item
       if(random < 0.5 and ndisp > 1) then                                 ! Lo SWAP avviene con una certa probabilità e solo se esistono altri item disponibili
         while (true) do
@@ -318,7 +320,7 @@ model Progetto
         end-do
       end-if
       ! La restante parte del codice equivale all'euristico costruttivo RANDOM
-      if (pesi(indice) <= cap) then 
+      if (pesi(indice) <= cap) then
         cap -= pesi(indice)
       else
         zeur := zeur + 1
@@ -342,11 +344,11 @@ model Progetto
           if (check_result) then
             disp (arrivo(i)) := 1
           end-if
-          controllati(arrivo(i)) := 1 
+          controllati(arrivo(i)) := 1
         end-if
       end-do
       forall (i in items)
-        if (sel(i) = 0) then 
+        if (sel(i) = 0) then
           fine := false
           break
         end-if
@@ -363,7 +365,7 @@ model Progetto
       sel: array(items) of integer
       getdisp : boolean
       controllati: array(items) of integer
-      check_result: boolean 
+      check_result: boolean
       indice : integer
       fine : boolean
       cap : integer
@@ -414,12 +416,12 @@ model Progetto
       indice := 0
       pvalmax := -1                                       ! Viene impostato a -1 perchè esistono anche precedenze con valore 0
       forall (i in items, j in archi ) do
-        ! Attraverso questi confronti si seleziona l'item (disponibile) "partenza" associato all'arco con pval maggiore 
+        ! Attraverso questi confronti si seleziona l'item (disponibile) "partenza" associato all'arco con pval maggiore
         if (disp(i) = 1 and sel(i) = 0 and partenza(j) = i and pval(j) > pvalmax) then
           ! 1) L'item deve essere disponibile
           ! 2) L'item non deve essere già selezionato
           ! 3) L'item deve essere la "partenza" di un arco di precedenza
-          ! 4) Il pval associato all'arco partente dall'item deve essere maggiore a pvalmax 
+          ! 4) Il pval associato all'arco partente dall'item deve essere maggiore a pvalmax
           write ("indice = " ,i, ", pval = ", pval(j), " -> ")
           indice := i
           pvalmax := pval(j)                              ! Si aggiorna pvalmax quando viene superato da un nuovo item
@@ -437,7 +439,7 @@ model Progetto
             ! 1) L'item deve essere disponibile
             ! 2) L'item non deve essere già selezionato
             ! 3) L'item deve pesare più di pesomax
-            ! 4) Il peso dell'item non deve eccedere la capacità del bin 
+            ! 4) Il peso dell'item non deve eccedere la capacità del bin
             indice := i
             pesomax := pesi(i)
           end-if
@@ -459,7 +461,7 @@ model Progetto
         end-do
       end-if
       ! La restante parte del codice equivale all'euristico costruttivo RANDOM
-      if (pesi(indice) <= cap) then 
+      if (pesi(indice) <= cap) then
         cap -= pesi(indice)
       else
         zeur := zeur + 1
@@ -482,11 +484,11 @@ model Progetto
           if (check_result) then
             disp (arrivo(i)) := 1
           end-if
-          controllati(arrivo(i)) := 1 
+          controllati(arrivo(i)) := 1
         end-if
       end-do
       forall (i in items)
-        if (sel(i) = 0) then 
+        if (sel(i) = 0) then
           fine := false
           break
         end-if
@@ -534,7 +536,7 @@ model Progetto
     forall(i in archi) disp(arrivo(i)) := 0     ! Pongo non disponibili gli item che sono arrivi di archi di precedenza
     forall(i in items) xeur(i):= 0              ! Assegno ad un ipotetico bin 0 tutti gli item nella soluzione euristica
     zeur := 1                                   ! Si parte per forza dal Bin 1
-    cap := c                                    ! Il bin (1) aperto ha capacità corrente uguale alla capacità massima 
+    cap := c                                    ! Il bin (1) aperto ha capacità corrente uguale alla capacità massima
     ! Iniziamo il ciclo esterno, ad ogni iterazione un item viene assegnato ad un bin
     while (not fine) do
       fine := true                              ! Evitiamo che ci si blocchi nel while (se non sono assegnati tutti gli item rimettiamo True -> più avanti)
@@ -556,7 +558,7 @@ model Progetto
         writeln("Costretto ad aprire ", zeur, " -> ")
         forall(i in archi) do                   ! Si cicla sugli archi perchè è necessario controllare gli arrivi (degli archi di precedenza)
           if (sel(arrivo(i)) <> 1 and controllati(arrivo(i)) <> 1) then
-            ! Devo controllare solamente gli item che non ho precedentemente selezionato / controllato 
+            ! Devo controllare solamente gli item che non ho precedentemente selezionato / controllato
             check_result := true                ! Inizialmente può essere inserito, se fallisce i controlli no
             forall(h in archi, j in bins) do
               ! Si cicla una seconda volta su archi perchè un item può essere arrivo di diversi archi, tutte le precedenze devono essere verificate
@@ -574,12 +576,12 @@ model Progetto
               disp (arrivo(i)) := 1
               getdisp := true
             end-if
-            controllati(arrivo(i)) := 1         ! In ogni caso l'item "arrivo" è stato controllato 
+            controllati(arrivo(i)) := 1         ! In ogni caso l'item "arrivo" è stato controllato
           end-if
         end-do
       end-do
       ! Selezioniamo casualmente un item tra quelli disponibili
-      while (true) do 
+      while (true) do
         indice := ceil(random * n)
         if(disp(indice) = 1 and sel(indice) = 0) then
           write ("Seleziono ", indice, " -> ")
@@ -587,7 +589,7 @@ model Progetto
         end-if
       end-do
       ! Aggiornamento della capacità residua del bin
-      if (pesi(indice) <= cap) then 
+      if (pesi(indice) <= cap) then
         cap -= pesi(indice)
       else                                      ! Se il peso dell'item selezionato eccede la capacità residua del bin corrente
         zeur := zeur + 1                        ! Apro un nuovo bin e aggiorno la capacità
@@ -612,12 +614,12 @@ model Progetto
           if (check_result) then
             disp (arrivo(i)) := 1
           end-if
-          controllati(arrivo(i)) := 1 
+          controllati(arrivo(i)) := 1
         end-if
       end-do
       ! Se ho ancora degli item non selezionati, devo effettuare un altro ciclo
       forall (i in items)
-        if (sel(i) = 0) then 
+        if (sel(i) = 0) then
           fine := false
           break
         end-if
@@ -631,17 +633,17 @@ model Progetto
 
   procedure modello_matematico
     z := sum(i in bins) y(i)                                                                  ! (1) funzione obiettivo
-    forall (j in items) 
+    forall (j in items)
       sum(i in bins) x(i, j) = 1                                                              ! (2) ogni item assegnato esattamente ad un bin
-    forall (i in bins) 
+    forall (i in bins)
       sum (j in items) pesi(j) * x(i, j) <= c * y(i)                                          ! (3) vincolo di capacità per bin aperto
-    forall (u in archi) 
+    forall (u in archi)
       sum (i in bins) i * x (i, arrivo(u)) >= sum(i in bins) (i*x(i, partenza(u))) + pval(u)  ! (4) vincolo sulle relazioni di precedenze
-    forall (i in 1..(m-1)) 
+    forall (i in 1..(m-1))
       y(i) >= y (i+1)                                                                         ! (5) bin aperti in ordine
-    forall (i in bins) 
+    forall (i in bins)
       y(i) is_binary                                                                          ! (6)
-    forall (i in bins, j in items) 
+    forall (i in bins, j in items)
       x(i, j) is_binary                                                                       ! (7)
     !Fine del modello matematico
     t1 := gettime
@@ -680,8 +682,10 @@ model Progetto
   procedure BPPGP_Rappresentazione_Grafica
     declarations
       cont: integer
-      p: integer
+      larghezza : integer
     end-declarations
+
+    larghezza := floor(c/zeur)
     svgaddgroup("b", "Bins", SVG_GRAY)
     svgsetstyle("b", SVG_STROKE, SVG_BLACK)
     svgsetstyle("b", SVG_STROKEWIDTH, 0.05)
@@ -691,10 +695,10 @@ model Progetto
     svgsetstyle("i", SVG_STROKE, SVG_BLACK)
     svgsetstyle("i", SVG_STROKEWIDTH, 0.05)
     svgsetstyle("i", SVG_FILL, SVG_LIME)
-    
+
     ! svgaddgroup("ti", SVG_RED)
     ! svgsetstyle("ti", SVG_FONTSIZE,"5px")
-    
+
     svgsetgraphviewbox(0,0,zeur,c)
     svgsetgraphlabels("Bins", "Capacity")
     ! svgaddrectangle("b", 0, 0, 1, c)
@@ -703,7 +707,7 @@ model Progetto
     ! p := 200
     ! svgaddrectangle("i", 0, cont, 1, p)
     ! svgaddtext(0.25, cont + p/2, "io")
-    
+    write(larghezza)
     forall (b in 1..(zeur+1)) do
       cont := 0
       svgaddrectangle("b", (b-1), 0, 1, c)
@@ -716,13 +720,68 @@ model Progetto
       end-do
     end-do
 
-    
     ! forall (i in 0..5)
     ! svgaddrectangle("b", i, 0, 1, 20)
 
-
-    
     svgrefresh
+    svgsave("graph502.svg")
+
     svgwaitclose
   end-procedure
+
+  ! procedure pazzia
+  !   declarations
+  !     val : integer
+  !     mprec: array(items, items) of integer               ! matrice di presenza delle precedenze
+  !     mval: array(items, items) of integer                ! matrice di valori delle precdenze
+  !     condizione: boolean
+  !     succ: array (items) of integer                      ! Item che succedono l'item in iterazione
+  !     cont : integer
+  !     avanti : array(items) of integer
+  !     nitems : integer
+
+  !   end-declarations
+  !   forall (i, h in items) mprec(i, h) := -1
+  !   ! mprec è una matrice con valore 0 o 1, a seconda della presenza o meno della precedenza: se si leggono le righe, si ottengono tutti gli item che
+  !   ! che seguono quello in considerazione, se si leggono le colonne, si ottengono tutti gli item che devono precedere quello in considerazione
+  !   forall (i in items) do
+  !   ! writeln("Analizzo ",i)
+  !     forall (h in items) succ(h) := -1
+  !     succ(i) := -5
+  !     condizione := true
+  !     cont := 1
+  !     while(condizione) do
+  !       condizione := false
+  !       forall (j in archi) do
+  !         if ((succ(partenza(j)) = (cont - 1)) or cont = -5) then
+  !           condizione := true
+  !           succ(arrivo(j)) := cont
+  !         end-if
+  !       end-do
+  !       if (cont = -
+  !       cont := cont + 1
+  !     end-do
+  !     forall (h in items) do
+  !       if (succ(h) > 0 ) then
+  !         mprec(i, h) := succ(h)
+  !       end-if
+  !     end-do
+  !   end-do
+
+  !   forall (i, h in items)
+  !     if(mprec(i, h) > eps) then
+  !       writeln (i," precede ",h, " di ", mprec(i, h))
+  !     end-if
+
+  !   forall(i in items) do
+  !     nitems := -1
+  !     forall (h in items) do
+  !       if (mprec(i,h) > nitems) then
+  !         nitems := mprec(i,h)
+  !       end-if
+  !     end-do
+  !     writeln ("Massima precedenza di ",i," vale ", nitems
+  !   end-do
+
+  ! end-procedure
 end-model
