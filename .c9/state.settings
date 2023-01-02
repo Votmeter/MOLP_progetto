@@ -148,8 +148,8 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": false,
-            "@minimized": true,
+            "@maximized": true,
+            "@minimized": false,
             "@position": "-7:0",
             "@size": "764:835"
         }
@@ -237,8 +237,7 @@
             "meta": {
                 "accessList": [
                     "tab6",
-                    "tab8",
-                    "tab7"
+                    "tab8"
                 ]
             },
             "name": "pane0",
@@ -254,7 +253,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1672666215040
+                            "timestamp": 1672667525193
                         },
                         "filter": true,
                         "title": "Tesina 1 (post multistart).mos",
@@ -263,26 +262,6 @@
                     },
                     "editorType": "ace",
                     "active": true
-                },
-                {
-                    "type": "tab",
-                    "name": "tab7",
-                    "path": "/esempio.dat",
-                    "className": [
-                        "tab7"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1669039413714
-                        },
-                        "filter": true,
-                        "title": "esempio.dat",
-                        "tooltip": "/esempio.dat",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": false
                 },
                 {
                     "type": "tab",
