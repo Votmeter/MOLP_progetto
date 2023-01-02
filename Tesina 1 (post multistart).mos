@@ -10,6 +10,7 @@ model Progetto
   forward procedure BPPGP_LS
   forward procedure BPPGP_GRASP
   forward procedure BPPGP_Rappresentazione_Grafica
+  forward procedure BPPGP_euristico_n
   ! forward procedure pazzia
   declarations
 
@@ -19,7 +20,7 @@ model Progetto
     c : integer ! capacità dei bin
 
     ! inputfile = "BPP_progettoMOLP.dat" !nome del file
-    inputfile = "Istanze/n=100/n=100(2).dat"
+    inputfile = "Istanze/n=50/n=50(3).dat"
 
   end-declarations
 
@@ -49,7 +50,7 @@ model Progetto
     x: array(bins, items) of mpvar !a che bin appartiene ogni item
     xeur: array(items) of integer
     zeur : integer
-    xbest: array(items, bins) of integer
+    xbest: array(items) of integer
     zbest: integer
     ndisp: integer
   end-declarations
@@ -62,22 +63,147 @@ model Progetto
   end-initialisations
 
   !!!!!!MAIN!!!!!!!
-  max_iter := 500
+  max_iter := 50000
 
 
-  BPPGP_euristico
-  ! BPPGP_Multistart
+  ! BPPGP_euristico
+  BPPGP_euristico_n
+  BPPGP_Multistart
   ! BPPGP_Euristico_con_pval
   ! BPPGP_LS
-  BPPGP_GRASP
-  ! modello_matematico
+  ! BPPGP_GRASP
+  modello_matematico
   ! pazzia
 
 
   Print_Status
   BPP_GP_output_MM
-  BPPGP_Rappresentazione_Grafica
+  ! BPPGP_Rappresentazione_Grafica
   !!!!!!!!!END MAIN !!!!!!!!!!
+  
+  procedure BPPGP_euristico_n
+    declarations
+      disp: array(items) of integer             ! item che possono essere inseriti
+      sel: array(items) of integer              ! item che sono già stati selezionati
+      getdisp : boolean                         ! vero se esistono item che sono disponibili
+      controllati: array(items) of integer      ! item in arrivo che sono stati controllati
+      check_result: boolean                     ! indica se un item diventa disponibile o no
+      indice : integer                          ! variabile che ricorda, durante l'iterazione, l'item che sto selezionando
+      fine : boolean                            ! assume valore false quando ho selezionato tutti gli item
+      cap : integer                             ! capacità residua del bin corrente
+      closest: integer
+      ta: real
+    end-declarations
+    ! t1 := gettime
+    ! condizioni necessarie per iniziare l'euristico:
+    fine := false
+    forall(i in items) sel(i) := 0              ! Nessun item è inizialmente selezionato
+    forall(i in items) disp(i) := 1             ! Tutti gli item sono disponibili ->
+    forall(i in archi) disp(arrivo(i)) := 0     ! Pongo non disponibili gli item che sono arrivi di archi di precedenza
+    forall(i in items) xeur(i):= 0              ! Assegno ad un ipotetico bin 0 tutti gli item nella soluzione euristica
+    zeur := 1                                   ! Si parte per forza dal Bin 1
+    cap := c                                    ! Il bin (1) aperto ha capacità corrente uguale alla capacità massima
+    ! Iniziamo il ciclo esterno, ad ogni iterazione un item viene assegnato ad un bin
+    while (not fine) do
+      fine := true                              ! Evitiamo che ci si blocchi nel while (se non sono assegnati tutti gli item rimettiamo True -> più avanti)
+      getdisp := false
+      forall (o in items) do
+        if (disp(o) = 1 and sel(o) = 0) then                   ! Se ho almeno un item disponibile per la selezione getdisp -> true
+          ! write(o, " d -> ")
+          getdisp := true                       ! ->
+          break                                 ! Appena trovo un match interrompo il ciclo
+        end-if
+      end-do
+      ! Ciclo che viene percorso solamente in caso di non disponibilità (getdisp = False) -> apre un nuovo bin.
+      ! Posso avere problemi di disponibilità causati dal valore sugli archi delle precedenze (pval):
+      ! Pur avendo già selezionato tutti gli item necessari, non sono ancora trascorsi sufficienti bin.
+      while(not getdisp) do
+        zeur += 1                               ! Apro il nuovo Bin
+        cap := c                                ! Aggiorno la capacità
+        forall (i in items) controllati(i) := 0 ! Controllare se (come si spera) qualche item diventa disponibile con l'apertura di un nuovo bin
+        ! write("C_a_A ", zeur, " -> ")
+        forall(i in archi) do                   
+          if (sel(arrivo(i)) = 0 and controllati(arrivo(i)) = 0) then
+            forall (j in bins) do
+              if (sel(partenza(i)) <> 1 or (xeur(partenza(i)) = j and zeur - pval(i) - j < 0)) then
+                controllati(arrivo(i)) := 1
+                ! Basta che una di queste condizione venga verificata e l'item non può diventare disponibile
+              end-if
+            end-do
+          end-if
+        end-do
+        forall (i in items) do
+          if (controllati(i) = 0 and sel(i) = 0 and disp(i) = 0) then
+            disp(i) := 1
+            ! write ("disp ", i," -> ")
+            getdisp := true
+          end-if
+      end-do
+      end-do
+      ! Estraggo a sorte un item, e seleziono quello disponibile più vicino 
+      indice := ceil(random * n)
+      closest := n+ 1
+      forall (i in items) do
+        if (disp(i) = 1 and sel(i) = 0 and indice - i < closest) then
+          closest := indice - i
+          indice := i
+        end-if 
+        if (disp(i) = 1 and indice - i >= closest) then
+          break
+        end-if
+      end-do
+      ! write ("sel ", indice, " -> ")
+      ! Aggiornamento della capacità residua del bin
+      if (pesi(indice) <= cap) then
+        cap -= pesi(indice)
+      else                                      ! Se il peso dell'item selezionato eccede la capacità residua del bin corrente
+        zeur := zeur + 1                        ! Apro un nuovo bin e aggiorno la capacità
+        cap := c - pesi(indice)
+      end-if
+      ! writeln("[bin: ", zeur, " cap: ", cap,"]")
+      sel(indice) := 1                          ! L'item estratto e assegnato diventa "selezionato"
+      disp(indice) := 0                         ! Togliamo la disponibilità dall'item selezionato (non deve essere ri-estratto)
+      xeur(indice) := zeur                      ! All'indice dell'item (nell'array della soluzione euristica) è assegnato il numero del bin (coppia item-bin)
+      ! Si effettua l'aggiornamento degli item disponibili.
+      ! Abbiamo un item in più nell'array selezionati e potenzialmente abbiamo aperto un bin
+      ta:=gettime
+
+      forall (i in items) controllati(i) := 0
+      
+      forall(i in archi) do
+        if (sel(arrivo(i)) <> 1 and controllati(arrivo(i)) <> 1) then
+          forall(j in bins) do
+            if (sel(partenza(i)) <> 1 or (xeur(partenza(i)) = j and zeur - pval(i) - j < 0)) then
+              controllati(arrivo(i)) := 1
+              break
+            end-if
+          end-do
+        end-if
+      end-do
+      
+      forall (i in items) do
+        if (controllati(i) = 0 and sel(i) = 0 and disp(i) = 0) then
+          disp(i) := 1
+          ! writeln("disp ", i)
+        end-if
+      end-do
+      
+      ! writeln ("(",gettime - ta,")")
+
+      ! Se ho ancora degli item non selezionati, devo effettuare un altro ciclo
+      forall (i in items)
+        if (sel(i) = 0) then
+          fine := false
+          break
+        end-if
+      
+    end-do
+    ! t2 := gettime
+    ! writeln("SOLUZIONE, con nuovo selezione random")
+    ! writeln("tempo impiegato = ", t2 - t1)
+    ! writeln("euristico costruttivo RANDOM")
+    ! writeln("\tzeur = ",zeur)
+  end-procedure
 
   procedure BPPGP_GRASP
     declarations
@@ -504,17 +630,30 @@ model Progetto
     t1 := gettime
     zbest := zeur
     xbest := xeur
+    write("iterazione: 0 zeur = ", zeur," -> ")
+
     forall (iterazione in 1..max_iter) do
-      BPPGP_euristico
+      BPPGP_euristico_n
       if(zeur < zbest) then                     ! Se la soluzione dell'euristico è migliore dell'incumbet si aggiorna
+        write("iterazione: ", iterazione," zeur = ", zeur," -> ")
         zbest := zeur
         xbest := xeur
       end-if
     end-do
+    writeln("")
     t2 := gettime
     writeln ("SOLUZIONE MULTISTART")
     writeln ("tempo impiegato = ", t2-t1)
+    forall (b in 1..(zeur+1)) do
+      forall (i in items) do
+        if (xeur(i) = b) then
+          writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
+        end-if
+      end-do
+    end-do
     writeln ("\tzbest = ", zbest)
+
+    
   end-procedure
 
   procedure BPPGP_euristico
@@ -543,7 +682,7 @@ model Progetto
       getdisp := false
       forall (o in items) do
         if (disp(o) = 1) then                   ! Se ho almeno un item disponibile per la selezione getdisp -> true
-          write(o, " è disponibile -> ")
+          ! write(o, " è disponibile -> ")
           getdisp := true                       ! ->
           break                                 ! Appena trovo un match interrompo il ciclo
         end-if
@@ -555,7 +694,7 @@ model Progetto
         forall (i in items) controllati(i) := 0 ! Controllare se (come si spera) qualche item diventa disponibile con l'apertura di un nuovo bin
         zeur += 1                               ! Apro il nuovo Bin
         cap := c                                ! Aggiorno la capacità
-        writeln("Costretto ad aprire ", zeur, " -> ")
+        ! writeln("Costretto ad aprire ", zeur, " -> ")
         forall(i in archi) do                   ! Si cicla sugli archi perchè è necessario controllare gli arrivi (degli archi di precedenza)
           if (sel(arrivo(i)) <> 1 and controllati(arrivo(i)) <> 1) then
             ! Devo controllare solamente gli item che non ho precedentemente selezionato / controllato
@@ -584,7 +723,7 @@ model Progetto
       while (true) do
         indice := ceil(random * n)
         if(disp(indice) = 1 and sel(indice) = 0) then
-          write ("Seleziono ", indice, " -> ")
+          ! write ("Seleziono ", indice, " -> ")
           break
         end-if
       end-do
@@ -595,7 +734,7 @@ model Progetto
         zeur := zeur + 1                        ! Apro un nuovo bin e aggiorno la capacità
         cap := c - pesi(indice)
       end-if
-      writeln("Assegno a bin: ", zeur, " (capacità residua: ", cap,")")
+      ! writeln("Assegno a bin: ", zeur, " (capacità residua: ", cap,")")
       sel(indice) := 1                          ! L'item estratto e assegnato diventa "selezionato"
       disp(indice) := 0                         ! Togliamo la disponibilità dall'item selezionato (non deve essere ri-estratto)
       xeur(indice) := zeur                      ! All'indice dell'item (nell'array della soluzione euristica) è assegnato il numero del bin (coppia item-bin)
@@ -625,10 +764,10 @@ model Progetto
         end-if
     end-do
     t2 := gettime
-    writeln("SOLUZIONE")
-    writeln("tempo impiegato = ", t2 - t1)
-    writeln("euristico costruttivo RANDOM")
-    writeln("\tzeur = ",zeur)
+    ! writeln("SOLUZIONE")
+    ! writeln("tempo impiegato = ", t2 - t1)
+    ! writeln("euristico costruttivo RANDOM")
+    ! writeln("\tzeur = ",zeur)
   end-procedure
 
   procedure modello_matematico
@@ -666,17 +805,17 @@ model Progetto
 
   procedure BPP_GP_output_MM
     writeln("SOLUZIONE")
-    writeln ("tempo impiegato = ",t2-t1)
+    ! writeln ("tempo impiegato = ",t2-t1)
     writeln("\tz = ", getobjval)
-    forall(i in bins) do
-      if (getsol(y(i)) > eps) then
-        writeln("\ty(", i, ") = ",getsol(y(i)))
-        forall(j in items)
-          if (getsol(x(i,j)) > eps) then
-            writeln("\t\tx(",i,", ", j, ") = ", getsol(x(i,j)))
-          end-if
-      end-if
-    end-do
+    ! forall(i in bins) do
+    !   if (getsol(y(i)) > eps) then
+    !     writeln("\ty(", i, ") = ",getsol(y(i)))
+    !     forall(j in items)
+    !       if (getsol(x(i,j)) > eps) then
+    !         writeln("\t\tx(",i,", ", j, ") = ", getsol(x(i,j)))
+    !       end-if
+    !   end-if
+    ! end-do
   end-procedure
 
   procedure BPPGP_Rappresentazione_Grafica
@@ -713,7 +852,7 @@ model Progetto
       svgaddrectangle("b", (b-1), 0, 1, c)
       forall (i in items) do
         if (xeur(i) = b) then
-          writeln("Item: ", i, ", bin: ", xeur(i),") -> peso = ", pesi(i))
+          writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
           svgaddrectangle("i", (b-1), cont, 1, pesi(i))
           cont += pesi(i)
         end-if
@@ -724,7 +863,7 @@ model Progetto
     ! svgaddrectangle("b", i, 0, 1, 20)
 
     svgrefresh
-    svgsave("graph502.svg")
+    ! svgsave("graph502.svg")
 
     svgwaitclose
   end-procedure
