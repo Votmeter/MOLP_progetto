@@ -20,7 +20,7 @@ model Progetto
     c : integer ! capacità dei bin
 
     ! inputfile = "BPP_progettoMOLP.dat" !nome del file
-    inputfile = "Istanze/n=50/n=50(2).dat"
+    inputfile = "Istanze/n=50/n=50(525).dat"
 
   end-declarations
 
@@ -63,7 +63,7 @@ model Progetto
   end-initialisations
 
   !!!!!!MAIN!!!!!!!
-  max_iter := 5000
+  max_iter := 10000
 
   tempo := 0
   ! BPPGP_euristico
@@ -72,12 +72,12 @@ model Progetto
   ! BPPGP_Euristico_con_pval
   ! BPPGP_LS
   ! BPPGP_GRASP
-  ! modello_matematico
+  modello_matematico
   ! pazzia
 
 
   ! Print_Status
-  ! BPP_GP_output_MM
+  BPP_GP_output_MM
   ! BPPGP_Rappresentazione_Grafica
   !!!!!!!!!END MAIN !!!!!!!!!!
   procedure BPPGP_euristico
@@ -198,58 +198,28 @@ model Progetto
     declarations
       disp: array(items) of integer
       sel: array(items) of integer
-      getdisp : boolean
+      ! getdisp : boolean
       controllati: array(items) of integer
+      nok : array(items) of integer
       check_result: boolean
       indice : integer
       fine : boolean
       cap : integer
       closest: integer
       ta: real
+      hodisp : boolean
     end-declarations
-    t1 := gettime
+    ! t1 := gettime
     fine := false
     forall(i in items) sel(i) := 0
     forall(i in items) disp(i) := 1
+    hodisp := true
     forall(i in archi) disp(arrivo(i)) := 0
     forall(i in items) xeur(i):= 0
     zeur := 1
     cap := c
     while (not fine) do
       fine := true
-      getdisp := false
-      forall (o in items) do
-        if (disp(o) = 1 and sel(o) = 0) then
-          ! write(o, " d -> ")
-          getdisp := true
-          break
-        end-if
-      end-do
-      while(not getdisp) do
-        zeur += 1
-        cap := c
-        forall (i in items) controllati(i) := 0
-        ! write("C_a_A ", zeur, " -> ")
-        forall(i in archi) do                   
-          if (sel(arrivo(i)) = 0 and controllati(arrivo(i)) = 0 and sel(partenza(i)) = 1) then
-            forall (j in bins) do
-              if (xeur(partenza(i)) = j and zeur - pval(i) - j < 0) then
-                controllati(arrivo(i)) := 1
-                break
-              elif (xeur(partenza(i)) < j) then
-                break
-              end-if
-            end-do
-          end-if
-        end-do
-        forall (i in items) do
-          if (controllati(i) = 0 and sel(i) = 0 and disp(i) = 0) then
-            disp(i) := 1
-            ! write ("disp ", i," -> ")
-            getdisp := true
-          end-if
-      end-do
-      end-do
       indice := ceil(random * n)
       closest := n+ 1
       forall (i in items) do
@@ -272,26 +242,53 @@ model Progetto
       sel(indice) := 1
       disp(indice) := 0
       xeur(indice) := zeur
-      forall (i in items) controllati(i) := 0
-      forall(i in archi) do
-        if (sel(arrivo(i)) <> 1 and controllati(arrivo(i)) <> 1) then
-          forall(j in bins) do
-            if (sel(partenza(i)) <> 1 or (xeur(partenza(i)) = j and zeur - pval(i) - j < 0)) then
-              controllati(arrivo(i)) := 1
-              break
-            elif (xeur(partenza(i)) < j) then
-              break
+      
+      repeat
+        if (not hodisp) then
+          zeur += 1
+          cap := c
+            ! write("C_a_A ", zeur, " -> ")
+
+        end-if
+        
+        forall (i in items) controllati(i) := 0
+        forall(i in items) nok(i):= 0
+        forall(i in archi) do                   
+          if (sel(arrivo(i)) = 0 and sel(partenza(i)) = 1 and nok(arrivo(i)) = 0) then
+            controllati(arrivo(i)) := 1
+            forall (j in bins) do
+              if (xeur(partenza(i)) = j and zeur - pval(i) - j < 0) then
+                nok(arrivo(i)) := 1
+                break
+              elif (xeur(partenza(i)) < j) then
+                break
+              end-if
+            end-do
+          else
+            nok(arrivo(i)) := 1
+          end-if
+        end-do
+        
+        hodisp := false
+        forall (i in items) do
+          if (controllati(i) = 1 and sel(i) = 0 and nok(i) = 0) then
+            disp(i) := 1
+          end-if
+          if(sel(i) = 0) then
+            fine := false
+            if (disp(i) = 1 and pesi(i) < cap) then
+              hodisp := true
             end-if
-          end-do
+          end-if
+        end-do
+        
+        if (fine) then
+          hodisp := true
         end-if
-      end-do
-      forall (i in items) do
-        if (controllati(i) = 0 and sel(i) = 0 and disp(i) = 0) then
-          disp(i) := 1
-          ! writeln("disp ", i)
-        end-if
-      end-do
-      ! writeln ("(",gettime - ta,")")
+      until hodisp or fine
+      
+      
+      
       forall (i in items)
         if (sel(i) = 0) then
           fine := false
@@ -299,11 +296,18 @@ model Progetto
         end-if
       
     end-do
-    t2 := gettime
+    ! t2 := gettime
     ! writeln("##### COSTRUTTIVO OP #####")
     ! writeln("\tzeur = ",zeur)
-    tempo := t2 - t1
+    ! tempo := t2 - t1
     ! writeln("\ttempo impiegato = ", t2 - t1)
+    ! forall (b in 1..(zeur+1)) do
+    !   forall (i in items) do
+    !     if (xeur(i) = b) then
+    !       writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
+    !     end-if
+    !   end-do
+    ! end-do
   end-procedure
 
   procedure BPPGP_GRASP
@@ -746,7 +750,6 @@ model Progetto
     writeln("")
     t2 := gettime
     writeln ("SOLUZIONE MULTISTART")
-    writeln ("tempo medio = ", tempo/max_iter)
     forall (b in 1..(zeur+1)) do
       forall (i in items) do
         if (xeur(i) = b) then
@@ -754,6 +757,7 @@ model Progetto
         end-if
       end-do
     end-do
+    writeln ("tempo = ", t2-t1)
     writeln ("\tzbest = ", zbest)
 
     
