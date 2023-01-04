@@ -19,8 +19,8 @@
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab0",
                     "tab2",
+                    "tab0",
                     "tab3"
                 ]
             },
@@ -103,8 +103,8 @@
                             "timestamp": 1670853185062
                         },
                         "filter": true,
-                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
-                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
+                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
+                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
                         "output": {
                             "id": "output20500",
                             "width": 1304,
@@ -132,8 +132,9 @@
             "@ace": 1,
             "@acestatus": 1,
             "@base-step-wizard": 2,
+            "@datagrid": 1,
             "@divider": 4,
-            "@document": 64,
+            "@document": 14,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -142,9 +143,10 @@
             "@menu": 3,
             "@menuitem": 8,
             "@pane": 2,
-            "@session": 63,
-            "@tab": 64,
-            "@undoManager": 64,
+            "@preferences": 1,
+            "@session": 12,
+            "@tab": 13,
+            "@undoManager": 14,
             "@welcome": 1
         }
     },
@@ -158,8 +160,8 @@
     "local": {
         "window": {
             "@fullscreen": false,
-            "@maximized": false,
-            "@minimized": true,
+            "@maximized": true,
+            "@minimized": false,
             "@position": "168:9",
             "@size": "1202:806"
         }
@@ -175,7 +177,7 @@
     },
     "panecycle": {
         "json()": [
-            "tab6",
+            "tab11",
             "tab0"
         ]
     },
@@ -225,14 +227,12 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 97,
+        "@scrollpos": -10,
         "expanded": {
             "json()": [
                 "/",
                 "/Istanze",
-                "/Istanze/n=20",
-                "/Istanze/n=50",
-                "/Istanze/n=1000"
+                "/Istanze/n=50"
             ]
         }
     },
@@ -241,10 +241,19 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/Tesina 1 (post multistart).mos",
+            "focus": "/Istanze/n=50/n=50(90)p.dat",
             "meta": {
                 "accessList": [
-                    "tab63",
+                    "tab12",
+                    "tab11",
+                    "tab10",
+                    "tab9",
+                    "tab8",
+                    "tab5",
+                    "tab7",
+                    "tab4",
+                    "tab1",
+                    "tab125",
                     "tab6"
                 ]
             },
@@ -255,41 +264,398 @@
                     "name": "tab6",
                     "path": "/Tesina 1 (post multistart).mos",
                     "className": [
-                        "tab6",
+                        "tab6"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "Tesina 1 (post multistart).mos",
+                        "tooltip": "/Tesina 1 (post multistart).mos",
+                        "ace": {
+                            "folds": [
+                                {
+                                    "start": {
+                                        "row": 23,
+                                        "column": 32
+                                    },
+                                    "end": {
+                                        "row": 28,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 30,
+                                        "column": 14
+                                    },
+                                    "end": {
+                                        "row": 51,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 53,
+                                        "column": 32
+                                    },
+                                    "end": {
+                                        "row": 58,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 77,
+                                        "column": 30
+                                    },
+                                    "end": {
+                                        "row": 95,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 97,
+                                        "column": 27
+                                    },
+                                    "end": {
+                                        "row": 209,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 211,
+                                        "column": 29
+                                    },
+                                    "end": {
+                                        "row": 316,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 318,
+                                        "column": 36
+                                    },
+                                    "end": {
+                                        "row": 441,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 443,
+                                        "column": 20
+                                    },
+                                    "end": {
+                                        "row": 577,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 579,
+                                        "column": 23
+                                    },
+                                    "end": {
+                                        "row": 705,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 723,
+                                        "column": 117
+                                    },
+                                    "end": {
+                                        "row": 727,
+                                        "column": 6
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 732,
+                                        "column": 34
+                                    },
+                                    "end": {
+                                        "row": 738,
+                                        "column": 4
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 745,
+                                        "column": 28
+                                    },
+                                    "end": {
+                                        "row": 758,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 760,
+                                        "column": 42
+                                    },
+                                    "end": {
+                                        "row": 797,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                },
+                                {
+                                    "start": {
+                                        "row": 799,
+                                        "column": 24
+                                    },
+                                    "end": {
+                                        "row": 810,
+                                        "column": 2
+                                    },
+                                    "placeholder": "..."
+                                }
+                            ],
+                            "scrolltop": 525.5,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 740,
+                                    "column": 36
+                                },
+                                "end": {
+                                    "row": 740,
+                                    "column": 36
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "7a1411f4af5c6b04378600ba23be7b45b54688b8",
+                        "meta": {
+                            "timestamp": 1672845949262
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab125",
+                    "path": "/Istanze/n=50/n=50(525).dat",
+                    "className": [
+                        "tab125"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672685959327
+                        },
+                        "filter": true,
+                        "title": "n=50(525).dat",
+                        "tooltip": "/Istanze/n=50/n=50(525).dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "/Istanze/n=50/n=50(50)p.dat",
+                    "className": [
+                        "tab1"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672851976595
+                        },
+                        "filter": true,
+                        "title": "n=50(50)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(50)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab4",
+                    "path": "/Istanze/n=50/n=50(55)p.dat",
+                    "className": [
+                        "tab4"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672852118558
+                        },
+                        "filter": true,
+                        "title": "n=50(55)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(55)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab5",
+                    "path": "/Istanze/n=50/n=50(60)p.dat",
+                    "className": [
+                        "tab5"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672852419161
+                        },
+                        "filter": true,
+                        "title": "n=50(60)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(60)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab7",
+                    "path": "/Istanze/n=50/n=50(65)p.dat",
+                    "className": [
+                        "tab7"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672852591413
+                        },
+                        "filter": true,
+                        "title": "n=50(65)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(65)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab8",
+                    "path": "/Istanze/n=50/n=50(70)p.dat",
+                    "className": [
+                        "tab8"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672852803338
+                        },
+                        "filter": true,
+                        "title": "n=50(70)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(70)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab9",
+                    "path": "/Istanze/n=50/n=50(75)p.dat",
+                    "className": [
+                        "tab9"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672852935882
+                        },
+                        "filter": true,
+                        "title": "n=50(75)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(75)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab10",
+                    "path": "/Istanze/n=50/n=50(80)p.dat",
+                    "className": [
+                        "tab10"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672853065615
+                        },
+                        "filter": true,
+                        "title": "n=50(80)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(80)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab11",
+                    "path": "/Istanze/n=50/n=50(85)p.dat",
+                    "className": [
+                        "tab11"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672853227679
+                        },
+                        "filter": true,
+                        "title": "n=50(85)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(85)p.dat",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab12",
+                    "path": "/Istanze/n=50/n=50(90)p.dat",
+                    "className": [
+                        "tab12",
                         "focus"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1672829597607
+                            "timestamp": 1672857096834
                         },
                         "filter": true,
-                        "title": "Tesina 1 (post multistart).mos",
-                        "tooltip": "/Tesina 1 (post multistart).mos",
+                        "title": "n=50(90)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(90)p.dat",
                         "ace": {}
                     },
                     "editorType": "ace",
                     "active": true
-                },
-                {
-                    "type": "tab",
-                    "name": "tab63",
-                    "path": "/Istanze/n=50/n=50(7).dat",
-                    "className": [
-                        "tab63"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672687886736
-                        },
-                        "filter": true,
-                        "title": "n=50(7).dat",
-                        "tooltip": "/Istanze/n=50/n=50(7).dat",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": false
                 }
             ],
             "skin": "editor_tab",
@@ -299,7 +665,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/Istanze/n=50/n=50(7).dat"
+            "/Istanze/n=50/Untitled"
         ]
     },
     "welcome": {

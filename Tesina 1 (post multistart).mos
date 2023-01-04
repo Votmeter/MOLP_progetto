@@ -18,7 +18,7 @@ model Progetto
     l: integer                                                  ! numero di archi
     c : integer                                                 ! capacità dei bin
     ! inputfile = "BPP_progettoMOLP.dat"                        ! esempio nel paper
-    inputfile = "Istanze/n=50/n=50(7).dat"
+    inputfile = "Istanze/n=250/n=250(1).dat"
   end-declarations
 
   initialisations from inputfile
@@ -63,16 +63,16 @@ model Progetto
   ! tempo := 0
   setparam("XPRS_MAXTIME", 300)
 
-  BPPGP_Euristico_con_pval
-  BPPGP_euristico
-  ! BPPGP_euristico_n
+  ! BPPGP_Euristico_con_pval
+  ! BPPGP_euristico
+  BPPGP_euristico_n
   ! BPPGP_LS
   ! BPPGP_GRASP
-  BPPGP_Multistart
-  modello_matematico
+  ! BPPGP_Multistart
+  ! modello_matematico
 
-  Print_Status
-  BPP_GP_output_MM
+  ! Print_Status
+  ! BPP_GP_output_MM
   ! BPPGP_Rappresentazione_Grafica
   !!!!!!!!!END MAIN !!!!!!!!!!
   procedure modello_matematico
@@ -204,9 +204,9 @@ model Progetto
     end-do
     t2 := gettime
     tempo := t2-t1
-    ! writeln("****** SOLUZIONE euristico base ******")
-    ! writeln("\tzeur = ",zeur)
-    ! writeln("tempo impiegato = ", t2 - t1)
+    writeln("****** SOLUZIONE euristico base ******")
+    writeln("\tzeur = ",zeur)
+    writeln("tempo impiegato = ", t2 - t1)
   end-procedure
 
   procedure BPPGP_euristico_n
@@ -716,9 +716,9 @@ model Progetto
     write("iterazione: 0 zeur = ", zeur," -> ")
 
     forall (iterazione in 1..max_iter) do
-      BPPGP_euristico
-      ! BPPGP_euristico_n
-      ! BPPGP_LS  
+      ! BPPGP_euristico
+      BPPGP_euristico_n
+      ! BPPGP_LS
       ! BPPGP_GRASP
       tempo += tempo
       if(zeur < zbest) then                     ! Se la soluzione dell'euristico è migliore dell'incumbet si aggiorna
@@ -737,10 +737,9 @@ model Progetto
     !     end-if
     !   end-do
     ! end-do
-    writeln ("tmedio = ", tempo / max_iter) 
+    writeln ("tmedio = ", tempo / max_iter)
     writeln ("tempo tot= ", t_2-t_1)
     writeln ("\tzbest = ", zbest)
-
 
   end-procedure
 
