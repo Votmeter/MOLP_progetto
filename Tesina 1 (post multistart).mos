@@ -18,7 +18,7 @@ model Progetto
     l: integer                                                  ! numero di archi
     c : integer                                                 ! capacità dei bin
     ! inputfile = "BPP_progettoMOLP.dat"                        ! esempio nel paper
-    inputfile = "Istanze/n=250/n=250(1).dat"
+    inputfile = "Istanze/n=50/n=50(50)p.dat"
   end-declarations
 
   initialisations from inputfile

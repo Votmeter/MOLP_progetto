@@ -103,11 +103,11 @@
                             "timestamp": 1670853185062
                         },
                         "filter": true,
-                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
-                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Idle",
+                        "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
+                        "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
                         "output": {
                             "id": "output20500",
-                            "width": 1304,
+                            "width": 1228,
                             "height": 219,
                             "config": {
                                 "runner": "Mosel",
@@ -134,7 +134,7 @@
             "@base-step-wizard": 2,
             "@datagrid": 1,
             "@divider": 4,
-            "@document": 14,
+            "@document": 12,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -145,8 +145,8 @@
             "@pane": 2,
             "@preferences": 1,
             "@session": 12,
-            "@tab": 13,
-            "@undoManager": 14,
+            "@tab": 12,
+            "@undoManager": 12,
             "@welcome": 1
         }
     },
@@ -177,14 +177,14 @@
     },
     "panecycle": {
         "json()": [
-            "tab11",
+            "tab6",
             "tab0"
         ]
     },
     "panels": {
         "@active-left": "tree",
         "@active-right": "none",
-        "@width-left": 0,
+        "@width-left": 256,
         "commands.panel": {
             "@enabled": "false",
             "@name": "commands.panel"
@@ -227,7 +227,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": -10,
+        "@scrollpos": 60,
         "expanded": {
             "json()": [
                 "/",
@@ -241,20 +241,18 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/Istanze/n=50/n=50(90)p.dat",
+            "focus": "/Tesina 1 (post multistart).mos",
             "meta": {
                 "accessList": [
-                    "tab12",
+                    "tab6",
                     "tab11",
-                    "tab10",
-                    "tab9",
-                    "tab8",
+                    "tab1",
+                    "tab4",
                     "tab5",
                     "tab7",
-                    "tab4",
-                    "tab1",
-                    "tab125",
-                    "tab6"
+                    "tab8",
+                    "tab9",
+                    "tab10"
                 ]
             },
             "name": "pane0",
@@ -264,179 +262,45 @@
                     "name": "tab6",
                     "path": "/Tesina 1 (post multistart).mos",
                     "className": [
-                        "tab6"
+                        "tab6",
+                        "focus"
                     ],
                     "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1672845949262
+                        },
                         "filter": true,
                         "title": "Tesina 1 (post multistart).mos",
                         "tooltip": "/Tesina 1 (post multistart).mos",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "/Istanze/n=50/n=50(50)p.dat",
+                    "className": [
+                        "tab1"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "n=50(50)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(50)p.dat",
                         "ace": {
-                            "folds": [
-                                {
-                                    "start": {
-                                        "row": 23,
-                                        "column": 32
-                                    },
-                                    "end": {
-                                        "row": 28,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 30,
-                                        "column": 14
-                                    },
-                                    "end": {
-                                        "row": 51,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 53,
-                                        "column": 32
-                                    },
-                                    "end": {
-                                        "row": 58,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 77,
-                                        "column": 30
-                                    },
-                                    "end": {
-                                        "row": 95,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 97,
-                                        "column": 27
-                                    },
-                                    "end": {
-                                        "row": 209,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 211,
-                                        "column": 29
-                                    },
-                                    "end": {
-                                        "row": 316,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 318,
-                                        "column": 36
-                                    },
-                                    "end": {
-                                        "row": 441,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 443,
-                                        "column": 20
-                                    },
-                                    "end": {
-                                        "row": 577,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 579,
-                                        "column": 23
-                                    },
-                                    "end": {
-                                        "row": 705,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 723,
-                                        "column": 117
-                                    },
-                                    "end": {
-                                        "row": 727,
-                                        "column": 6
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 732,
-                                        "column": 34
-                                    },
-                                    "end": {
-                                        "row": 738,
-                                        "column": 4
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 745,
-                                        "column": 28
-                                    },
-                                    "end": {
-                                        "row": 758,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 760,
-                                        "column": 42
-                                    },
-                                    "end": {
-                                        "row": 797,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                },
-                                {
-                                    "start": {
-                                        "row": 799,
-                                        "column": 24
-                                    },
-                                    "end": {
-                                        "row": 810,
-                                        "column": 2
-                                    },
-                                    "placeholder": "..."
-                                }
-                            ],
-                            "scrolltop": 525.5,
+                            "folds": [],
+                            "scrolltop": 0,
                             "scrollleft": 0,
                             "selection": {
                                 "start": {
-                                    "row": 740,
-                                    "column": 36
+                                    "row": 0,
+                                    "column": 0
                                 },
                                 "end": {
-                                    "row": 740,
-                                    "column": 36
+                                    "row": 8,
+                                    "column": 0
                                 },
                                 "isBackwards": false
                             },
@@ -447,51 +311,11 @@
                             },
                             "firstLineState": 0
                         },
-                        "hash": "7a1411f4af5c6b04378600ba23be7b45b54688b8",
+                        "hash": "c6397e980b44b62df83aad475de9349b73d1a107",
                         "meta": {
-                            "timestamp": 1672845949262
+                            "timestamp": 1672851976665
                         },
                         "changed": false
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab125",
-                    "path": "/Istanze/n=50/n=50(525).dat",
-                    "className": [
-                        "tab125"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672685959327
-                        },
-                        "filter": true,
-                        "title": "n=50(525).dat",
-                        "tooltip": "/Istanze/n=50/n=50(525).dat",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab1",
-                    "path": "/Istanze/n=50/n=50(50)p.dat",
-                    "className": [
-                        "tab1"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672851976595
-                        },
-                        "filter": true,
-                        "title": "n=50(50)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(50)p.dat",
-                        "ace": {}
                     },
                     "editorType": "ace",
                     "active": false
@@ -504,14 +328,36 @@
                         "tab4"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672852118558
-                        },
                         "filter": true,
                         "title": "n=50(55)p.dat",
                         "tooltip": "/Istanze/n=50/n=50(55)p.dat",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 1,
+                                    "column": 5
+                                },
+                                "end": {
+                                    "row": 1,
+                                    "column": 5
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "4154392aeafc8bfbff41a3686690dcd23d05eb19",
+                        "meta": {
+                            "timestamp": 1672852118622
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -524,14 +370,36 @@
                         "tab5"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672852419161
-                        },
                         "filter": true,
                         "title": "n=50(60)p.dat",
                         "tooltip": "/Istanze/n=50/n=50(60)p.dat",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "37ae460d3d3a0361a79835e4b2b2bb405e019f56",
+                        "meta": {
+                            "timestamp": 1672852419232
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -544,14 +412,36 @@
                         "tab7"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672852591413
-                        },
                         "filter": true,
                         "title": "n=50(65)p.dat",
                         "tooltip": "/Istanze/n=50/n=50(65)p.dat",
-                        "ace": {}
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 7,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "6e431dd5d8480ff8d20e4870f3f6747bd4c02079",
+                        "meta": {
+                            "timestamp": 1672852591482
+                        },
+                        "changed": false
                     },
                     "editorType": "ace",
                     "active": false
@@ -559,19 +449,41 @@
                 {
                     "type": "tab",
                     "name": "tab8",
-                    "path": "/Istanze/n=50/n=50(70)p.dat",
+                    "path": "/Istanze/n=50/n=50(100)p.dat",
                     "className": [
-                        "tab8"
+                        "tab8",
+                        "changed"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672852803338
-                        },
+                        "changed": true,
                         "filter": true,
-                        "title": "n=50(70)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(70)p.dat",
-                        "ace": {}
+                        "title": "n=50(100)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(100)p.dat",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "meta": {
+                            "timestamp": 1672858065439
+                        }
                     },
                     "editorType": "ace",
                     "active": false
@@ -579,19 +491,41 @@
                 {
                     "type": "tab",
                     "name": "tab9",
-                    "path": "/Istanze/n=50/n=50(75)p.dat",
+                    "path": "/Istanze/n=50/n=50(105)p.dat",
                     "className": [
-                        "tab9"
+                        "tab9",
+                        "changed"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672852935882
-                        },
+                        "changed": true,
                         "filter": true,
-                        "title": "n=50(75)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(75)p.dat",
-                        "ace": {}
+                        "title": "n=50(105)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(105)p.dat",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "meta": {
+                            "timestamp": 1672858214798
+                        }
                     },
                     "editorType": "ace",
                     "active": false
@@ -599,19 +533,41 @@
                 {
                     "type": "tab",
                     "name": "tab10",
-                    "path": "/Istanze/n=50/n=50(80)p.dat",
+                    "path": "/Istanze/n=50/n=50(110)p.dat",
                     "className": [
-                        "tab10"
+                        "tab10",
+                        "changed"
                     ],
                     "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672853065615
-                        },
+                        "changed": true,
                         "filter": true,
-                        "title": "n=50(80)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(80)p.dat",
-                        "ace": {}
+                        "title": "n=50(110)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(110)p.dat",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 8,
+                                    "column": 0
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "meta": {
+                            "timestamp": 1672858387377
+                        }
                     },
                     "editorType": "ace",
                     "active": false
@@ -619,43 +575,23 @@
                 {
                     "type": "tab",
                     "name": "tab11",
-                    "path": "/Istanze/n=50/n=50(85)p.dat",
+                    "path": "/Istanze/n=50/n=50(115)p.dat",
                     "className": [
-                        "tab11"
+                        "tab11",
+                        "changed"
                     ],
                     "document": {
-                        "changed": false,
+                        "changed": true,
                         "meta": {
-                            "timestamp": 1672853227679
+                            "timestamp": 1672858512562
                         },
                         "filter": true,
-                        "title": "n=50(85)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(85)p.dat",
+                        "title": "n=50(115)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(115)p.dat",
                         "ace": {}
                     },
                     "editorType": "ace",
                     "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab12",
-                    "path": "/Istanze/n=50/n=50(90)p.dat",
-                    "className": [
-                        "tab12",
-                        "focus"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672857096834
-                        },
-                        "filter": true,
-                        "title": "n=50(90)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(90)p.dat",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": true
                 }
             ],
             "skin": "editor_tab",
@@ -665,7 +601,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/Istanze/n=50/Untitled"
+            "/Istanze/n=50/n=50(115)p.dat"
         ]
     },
     "welcome": {
