@@ -13,12 +13,12 @@ model Progetto
   forward procedure Print_Status
 
   declarations
-    n: integer                                                  ! numero di item, integer
+    n: integer                                                  ! numero di item
     m: integer                                                  ! numero di bin
     l: integer                                                  ! numero di archi
     c : integer                                                 ! capacità dei bin
     ! inputfile = "BPP_progettoMOLP.dat"                        ! esempio nel paper
-    inputfile = "Istanze/n=50/n=50(50)p.dat"
+    inputfile = "Istanze/n=50/n=50(115)l.dat"
   end-declarations
 
   initialisations from inputfile
@@ -36,7 +36,7 @@ model Progetto
     partenza : array(archi) of integer                          ! item da cui partono gli archi di precedenza
     arrivo : array(archi) of integer                            ! item a cui arrivano gli di precedenza
     pval : array(archi) of integer                              ! valori sugli archi di precedenza
-    t1, t2, tempo : real                                        ! variabili per i tempi
+    t1, t2, tempo, tsingolo : real                              ! variabili per i tempi
     eps = 0.0001                                                ! valore generico piccolo
     max_iter : integer                                          ! numero di iterazioni del Multistart
     solution_status: string                                     ! stato del problema per Print Status
@@ -61,18 +61,18 @@ model Progetto
   !!!!!!MAIN!!!!!!!
   max_iter := 5000
   ! tempo := 0
-  setparam("XPRS_MAXTIME", 300)
 
   ! BPPGP_Euristico_con_pval
   ! BPPGP_euristico
   BPPGP_euristico_n
   ! BPPGP_LS
   ! BPPGP_GRASP
-  ! BPPGP_Multistart
-  ! modello_matematico
+  BPPGP_Multistart
+  setparam("XPRS_MAXTIME", 300)
+  modello_matematico
 
-  ! Print_Status
-  ! BPP_GP_output_MM
+  Print_Status
+  BPP_GP_output_MM
   ! BPPGP_Rappresentazione_Grafica
   !!!!!!!!!END MAIN !!!!!!!!!!
   procedure modello_matematico
@@ -95,7 +95,7 @@ model Progetto
     t2 := gettime
   end-procedure
 
-  procedure BPPGP_euristico
+  procedure BPPGP_euristico                     ! primo euristico costruttivo funzionante
     declarations
       disp: array(items) of integer             ! item che possono essere inseriti
       sel: array(items) of integer              ! item che sono già stati selezionati
@@ -111,8 +111,8 @@ model Progetto
     fine := false
     forall(i in items) sel(i) := 0              ! Nessun item è inizialmente selezionato
     forall(i in items) disp(i) := 1             ! Tutti gli item sono disponibili ->
-    forall(i in archi) disp(arrivo(i)) := 0     ! Pongo non disponibili gli item che sono arrivi di archi di precedenza
     forall(i in items) xeur(i):= 0              ! Assegno ad un ipotetico bin 0 tutti gli item nella soluzione euristica
+    forall(i in archi) disp(arrivo(i)) := 0     ! Pongo non disponibili gli item che sono arrivi di archi di precedenza
     zeur := 1                                   ! Si parte per forza dal Bin 1
     cap := c                                    ! Il bin (1) aperto ha capacità corrente uguale alla capacità massima
     ! Iniziamo il ciclo esterno, ad ogni iterazione un item viene assegnato ad un bin
@@ -216,7 +216,6 @@ model Progetto
       fine : boolean
       closest: integer                                      ! per la selezione dell'item
       hodisp : boolean                                      ! per sapere se aprire un nuovo bin
-      controllati: array(items) of integer                  ! items che hanno effettuato il controllo per diventare disponibili
       nok : array(items) of integer                         ! items che hanno fallito il controllo per diventare disponibili
     end-declarations
     t1 := gettime
@@ -233,9 +232,11 @@ model Progetto
     while (not fine) do
       fine := true
       indice := ceil(random * n)
-      closest := n + 1
+      closest := n + 1                                      ! inizializzo a n+1 un potenziale item più vicino
+      ! Seleziono l'item più vicino all'estrazione che ho effettuato
       forall (i in items) do
         if (disp(i) = 1 and sel(i) = 0 and indice - i < closest) then
+          ! per poter essere selezionato l'item deve essere disponibile e non selezionato
           closest := indice - i
           indice := i
         end-if
@@ -243,7 +244,6 @@ model Progetto
           break
         end-if
       end-do
-
       ! write ("sel ", indice, " -> ")
       if (pesi(indice) <= cap) then
         cap -= pesi(indice)
@@ -255,57 +255,51 @@ model Progetto
       sel(indice) := 1
       disp(indice) := 0
       xeur(indice) := zeur
-
+      ! Questo è il codice che aggiorna gli items disponibili
       repeat
-        if (not hodisp) then
-          zeur += 1
-          cap := c
+        if (not hodisp) then                      ! hodisp viene eventualmente aggiornato a fine del ciclo
+          zeur += 1                               ! apro un nuovo bin per rendere disponibili nuovi items
+          cap := c                                ! resetto la capacità residua
         end-if
-        forall (i in items) do
-          controllati(i) := 0
-          nok(i):= 0
-        end-do
+        forall (i in items) nok(i):= 0            ! nessuno ha ancora fallito un controllo
         forall(i in archi) do
+          ! controllo solamente quelli che non hanno fallito controlli
           if (sel(arrivo(i)) = 0 and sel(partenza(i)) = 1 and nok(arrivo(i)) = 0) then
-            controllati(arrivo(i)) := 1
             forall (j in bins) do
               if (xeur(partenza(i)) = j and zeur - pval(i) - j < 0) then
-                nok(arrivo(i)) := 1
+                ! classici controlli tra bin attuale e bin associato alla partenza
+                nok(arrivo(i)) := 1               !si registra quando si fallisce un controllo
                 break
-              elif (xeur(partenza(i)) < j) then
+                ! una volta che si è superato il bin attuale o già controllato quello di appartenenza si interrompe il ciclo
+              elif (xeur(partenza(i)) < j or j > zeur) then
                 break
               end-if
             end-do
           else
-            nok(arrivo(i)) := 1
+            nok(arrivo(i)) := 1                   ! anche se si fallisce il controllo iniziale nok = 1
           end-if
         end-do
-        hodisp := false
+        hodisp := false                           ! reset di hodisp
         forall (i in items) do
-          if (controllati(i) = 1 and sel(i) = 0 and nok(i) = 0) then
-            disp(i) := 1
+          if (sel(i) = 0 and nok(i) = 0) then
+            disp(i) := 1                          ! item non selezionati e che non hanno fallito il controllo diventano disp
           end-if
           if(sel(i) = 0) then
-            fine := false
+            fine := false                         ! se ho item non selezionati non finisce l'eutistico
             if (disp(i) = 1 and pesi(i) < cap) then
-              hodisp := true
+              hodisp := true                      ! se ho ho item disponibili e che possono essere inseriti nel bin corrente hodisp = true
             end-if
           end-if
         end-do
-        if (fine) then
+        if (fine) then                            ! se fine è true anche ho disp deve esserlo
           hodisp := true
         end-if
       until hodisp or fine
-      ! forall (i in items)
-      !   if (sel(i) = 0) then
-      !     fine := false
-      !     break
-      !   end-if
     end-do
     t2 := gettime
     ! writeln("##### COSTRUTTIVO OP #####")
     ! writeln("\tzeur = ",zeur)
-    tempo := t2 - t1
+    tsingolo := t2 - t1
     ! writeln("\ttempo impiegato = ", t2 - t1)
     ! forall (b in 1..(zeur+1)) do
     !   forall (i in items) do
@@ -338,13 +332,12 @@ model Progetto
       ! Si seleziona un item secondo una specifiche serie di criteri
       indice := 0
       pvalmax := -1                                       ! Viene impostato a -1 perchè esistono anche precedenze con valore 0
-      forall (j in archi ) do
+      forall (j in archi) do
         ! Attraverso questi confronti si seleziona l'item (disponibile) "partenza" associato all'arco con pval maggiore
         if (disp(partenza(j)) = 1 and sel(partenza(j)) = 0 and pval(j) > pvalmax) then
           ! 1) L'item deve essere disponibile
           ! 2) L'item non deve essere già selezionato
-          ! 3) L'item deve essere la "partenza" di un arco di precedenza
-          ! 4) Il pval associato all'arco partente dall'item deve essere maggiore a pvalmax
+          ! 3) Il pval associato all'arco partente dall'item deve essere maggiore a pvalmax
           ! write ("indice = " ,i, ", pval = ", pval(j), " -> ")
           indice := partenza(j)
           pvalmax := pval(j)                              ! Si aggiorna pvalmax quando viene superato da un nuovo item
@@ -583,7 +576,7 @@ model Progetto
       fine, hodisp : boolean
       cap, closest, indice, pvalmax, swap : integer
       crit: integer                                           ! criterio modificabile per il grasp
-      clist : array(items) of integer                         !Candidate  List del GRASP
+      clist : array(items) of integer                         ! candidate List del GRASP
     end-declarations
     t1 := gettime
     forall(i in items) do
@@ -606,7 +599,6 @@ model Progetto
           ! 1) Il valore di pval dell'arco j deve essere maggiore rispetto a quello di pvalmax
           ! 2) L'item i deve essere disponibile
           ! 3) L'item i non deve essere selezionato
-          ! 4) L'item i deve essere la partenza dell'arco j
           pvalmax := pval(j)
         end-if
       end-do
@@ -638,8 +630,6 @@ model Progetto
           break
         end-if
       end-do
-
-
       ! write("Seleziono ", indice, " -> ")
       ! La restante parte del codice equivale all'euristico costruttivo RANDOM
       if (pesi(indice) <= cap) then
@@ -652,7 +642,6 @@ model Progetto
       sel(indice) := 1
       disp(indice) := 0
       xeur(indice) := zeur
-
       repeat
         if (not hodisp) then
           zeur += 1
@@ -712,15 +701,13 @@ model Progetto
     t_1 := gettime
     zbest := zeur
     xbest := xeur
-
-    write("iterazione: 0 zeur = ", zeur," -> ")
-
+    ! write("iterazione: 0 zeur = ", zeur," -> ")
     forall (iterazione in 1..max_iter) do
       ! BPPGP_euristico
       BPPGP_euristico_n
       ! BPPGP_LS
       ! BPPGP_GRASP
-      tempo += tempo
+      tempo += tsingolo
       if(zeur < zbest) then                     ! Se la soluzione dell'euristico è migliore dell'incumbet si aggiorna
         write("iterazione: ", iterazione," zeur = ", zeur," -> ")
         zbest := zeur
@@ -764,7 +751,7 @@ model Progetto
       larghezza : integer
     end-declarations
 
-    larghezza := floor(c/zeur)
+    ! larghezza := floor(c/zeur)
     svgaddgroup("b", "Bins", SVG_GRAY)
     svgsetstyle("b", SVG_STROKE, SVG_BLACK)
     svgsetstyle("b", SVG_STROKEWIDTH, 0.05)
@@ -778,7 +765,6 @@ model Progetto
     svgsetgraphviewbox(0,0,zeur,c)
     svgsetgraphlabels("Bins", "Capacity")
 
-    ! write(larghezza)
     forall (b in 1..(zeur+1)) do
       cont := 0
       svgaddrectangle("b", (b-1), 0, 1, c)

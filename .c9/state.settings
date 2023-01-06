@@ -14,13 +14,13 @@
     },
     "console": {
         "@expanded": true,
-        "@height": 244.60003662109375,
+        "@height": 519.6000061035156,
         "@maximized": "false",
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab2",
                     "tab0",
+                    "tab2",
                     "tab3"
                 ]
             },
@@ -108,7 +108,7 @@
                         "output": {
                             "id": "output20500",
                             "width": 1228,
-                            "height": 219,
+                            "height": 494,
                             "config": {
                                 "runner": "Mosel",
                                 "command": "Tesina\\ 1\\ \\(post\\ multistart\\).mos",
@@ -134,7 +134,7 @@
             "@base-step-wizard": 2,
             "@datagrid": 1,
             "@divider": 4,
-            "@document": 12,
+            "@document": 20,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -144,9 +144,9 @@
             "@menuitem": 8,
             "@pane": 2,
             "@preferences": 1,
-            "@session": 12,
+            "@session": 20,
             "@tab": 12,
-            "@undoManager": 12,
+            "@undoManager": 20,
             "@welcome": 1
         }
     },
@@ -227,7 +227,7 @@
         }
     },
     "projecttree": {
-        "@scrollpos": 60,
+        "@scrollpos": -10,
         "expanded": {
             "json()": [
                 "/",
@@ -245,14 +245,8 @@
             "meta": {
                 "accessList": [
                     "tab6",
-                    "tab11",
-                    "tab1",
-                    "tab4",
-                    "tab5",
-                    "tab7",
-                    "tab8",
-                    "tab9",
-                    "tab10"
+                    "tab10",
+                    "tab9"
                 ]
             },
             "name": "pane0",
@@ -268,7 +262,7 @@
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1672845949262
+                            "timestamp": 1672961968765
                         },
                         "filter": true,
                         "title": "Tesina 1 (post multistart).mos",
@@ -280,252 +274,20 @@
                 },
                 {
                     "type": "tab",
-                    "name": "tab1",
-                    "path": "/Istanze/n=50/n=50(50)p.dat",
-                    "className": [
-                        "tab1"
-                    ],
-                    "document": {
-                        "filter": true,
-                        "title": "n=50(50)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(50)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 0,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "c6397e980b44b62df83aad475de9349b73d1a107",
-                        "meta": {
-                            "timestamp": 1672851976665
-                        },
-                        "changed": false
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab4",
-                    "path": "/Istanze/n=50/n=50(55)p.dat",
-                    "className": [
-                        "tab4"
-                    ],
-                    "document": {
-                        "filter": true,
-                        "title": "n=50(55)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(55)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 1,
-                                    "column": 5
-                                },
-                                "end": {
-                                    "row": 1,
-                                    "column": 5
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "4154392aeafc8bfbff41a3686690dcd23d05eb19",
-                        "meta": {
-                            "timestamp": 1672852118622
-                        },
-                        "changed": false
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab5",
-                    "path": "/Istanze/n=50/n=50(60)p.dat",
-                    "className": [
-                        "tab5"
-                    ],
-                    "document": {
-                        "filter": true,
-                        "title": "n=50(60)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(60)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "37ae460d3d3a0361a79835e4b2b2bb405e019f56",
-                        "meta": {
-                            "timestamp": 1672852419232
-                        },
-                        "changed": false
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab7",
-                    "path": "/Istanze/n=50/n=50(65)p.dat",
-                    "className": [
-                        "tab7"
-                    ],
-                    "document": {
-                        "filter": true,
-                        "title": "n=50(65)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(65)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 7,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "hash": "6e431dd5d8480ff8d20e4870f3f6747bd4c02079",
-                        "meta": {
-                            "timestamp": 1672852591482
-                        },
-                        "changed": false
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab8",
-                    "path": "/Istanze/n=50/n=50(100)p.dat",
-                    "className": [
-                        "tab8",
-                        "changed"
-                    ],
-                    "document": {
-                        "changed": true,
-                        "filter": true,
-                        "title": "n=50(100)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(100)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "meta": {
-                            "timestamp": 1672858065439
-                        }
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
                     "name": "tab9",
-                    "path": "/Istanze/n=50/n=50(105)p.dat",
+                    "path": "/Istanze/n=50/n=50(110)p.dat",
                     "className": [
-                        "tab9",
-                        "changed"
+                        "tab9"
                     ],
                     "document": {
-                        "changed": true,
-                        "filter": true,
-                        "title": "n=50(105)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(105)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
+                        "changed": false,
                         "meta": {
-                            "timestamp": 1672858214798
-                        }
+                            "timestamp": 1672932634820
+                        },
+                        "filter": true,
+                        "title": "n=50(110)p.dat",
+                        "tooltip": "/Istanze/n=50/n=50(110)p.dat",
+                        "ace": {}
                     },
                     "editorType": "ace",
                     "active": false
@@ -533,57 +295,14 @@
                 {
                     "type": "tab",
                     "name": "tab10",
-                    "path": "/Istanze/n=50/n=50(110)p.dat",
-                    "className": [
-                        "tab10",
-                        "changed"
-                    ],
-                    "document": {
-                        "changed": true,
-                        "filter": true,
-                        "title": "n=50(110)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(110)p.dat",
-                        "ace": {
-                            "folds": [],
-                            "scrolltop": 0,
-                            "scrollleft": 0,
-                            "selection": {
-                                "start": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "end": {
-                                    "row": 8,
-                                    "column": 0
-                                },
-                                "isBackwards": false
-                            },
-                            "options": {
-                                "guessTabSize": true,
-                                "useWrapMode": false,
-                                "wrapToView": true
-                            },
-                            "firstLineState": 0
-                        },
-                        "meta": {
-                            "timestamp": 1672858387377
-                        }
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab11",
                     "path": "/Istanze/n=50/n=50(115)p.dat",
                     "className": [
-                        "tab11",
-                        "changed"
+                        "tab10"
                     ],
                     "document": {
-                        "changed": true,
+                        "changed": false,
                         "meta": {
-                            "timestamp": 1672858512562
+                            "timestamp": 1672932994392
                         },
                         "filter": true,
                         "title": "n=50(115)p.dat",
