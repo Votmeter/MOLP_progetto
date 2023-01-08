@@ -1,14 +1,19 @@
 model Progetto
+  ! I commenti sono esclusivamente nelle porzioni di codice non già esaminati in precedenza (diverse dalle procedure già viste) per
+  ! non appensantire l'esaminazione e per evitare ridondanza.
+  ! Il codice commentanto riguarda principalmente la stampa dei risultati e dei tempi, si trova solitamente alla fine delle procedure
+  ! o in punti strategici per l'esecuzione, non viene trattato nelle spiegazione e lo i può testare.
+  ! Le procedure nel main possono essere testate in combinazione con le istanze a disposizione (quelle che abbiamo utilizzato per
+  ! sviluppare gli algoritmi).
   options noimplicit
   uses "mmxprs", "mmsystem", "mmsvg"
   forward procedure modello_matematico
-  forward procedure BPPGP_euristico
-  forward procedure BPPGP_euristico_n
-  forward procedure BPPGP_Euristico_con_pval
-  forward procedure BPPGP_LS
-  forward procedure BPPGP_GRASP
+  forward procedure BPPGP_random                                ! costruttivo random
+  forward procedure BPPGP_random_migliorato                     ! costruttivo random migliorato
+  forward procedure BPPGP_Euristico_con_pval                    ! costruttivo con criterio basato sul peso degli archi
+  forward procedure BPPGP_LS                                    ! Local Search
+  forward procedure BPPGP_GRASP                                 ! GRASP
   forward procedure BPPGP_Multistart
-  forward procedure BPP_GP_output_MM
   forward procedure BPPGP_Rappresentazione_Grafica
   forward procedure Print_Status
 
@@ -17,8 +22,8 @@ model Progetto
     m: integer                                                  ! numero di bin
     l: integer                                                  ! numero di archi
     c : integer                                                 ! capacità dei bin
-    ! inputfile = "BPP_progettoMOLP.dat"                        ! esempio nel paper
-    inputfile = "Istanze/n=50/n=50(115)l.dat"
+    ! inputfile = "Istanze/BPP_progettoMOLP.dat"                ! esempio nel paper
+    inputfile = "Istanze/n=100/n=100(1).dat"
   end-declarations
 
   initialisations from inputfile
@@ -48,7 +53,6 @@ model Progetto
     xbest: array(items) of integer                              ! corrispettivo per Multistart
     zeur : integer                                              ! numero di bin utilizzati
     zbest: integer                                              ! corrispettivo per multistart
-    ndisp: integer
   end-declarations
 
   initialisations from inputfile
@@ -60,19 +64,18 @@ model Progetto
 
   !!!!!!MAIN!!!!!!!
   max_iter := 5000
-  ! tempo := 0
+  tempo := 0
 
   ! BPPGP_Euristico_con_pval
-  ! BPPGP_euristico
-  BPPGP_euristico_n
+  ! BPPGP_random
+  BPPGP_random_migliorato
   ! BPPGP_LS
   ! BPPGP_GRASP
-  BPPGP_Multistart
+  ! BPPGP_Multistart
   setparam("XPRS_MAXTIME", 300)
-  modello_matematico
+  ! modello_matematico
 
-  Print_Status
-  BPP_GP_output_MM
+  ! Print_Status
   ! BPPGP_Rappresentazione_Grafica
   !!!!!!!!!END MAIN !!!!!!!!!!
   procedure modello_matematico
@@ -93,9 +96,21 @@ model Progetto
     t1 := gettime
     minimize(z)
     t2 := gettime
+    writeln("SOLUZIONE")
+    writeln ("\ttempo impiegato = ",t2-t1)
+    writeln("\tz = ", getobjval)
+    forall(i in bins) do
+      if (getsol(y(i)) > eps) then
+        writeln("\ty(", i, ") = ",getsol(y(i)))
+        forall(j in items)
+          if (getsol(x(i,j)) > eps) then
+            writeln("\t\tx(",i,", ", j, ") = ", getsol(x(i,j)))
+          end-if
+      end-if
+    end-do
   end-procedure
 
-  procedure BPPGP_euristico                     ! primo euristico costruttivo funzionante
+  procedure BPPGP_random
     declarations
       disp: array(items) of integer             ! item che possono essere inseriti
       sel: array(items) of integer              ! item che sono già stati selezionati
@@ -206,10 +221,18 @@ model Progetto
     tempo := t2-t1
     writeln("****** SOLUZIONE euristico base ******")
     writeln("\tzeur = ",zeur)
-    writeln("tempo impiegato = ", t2 - t1)
+    writeln("\ttempo impiegato = ", t2 - t1)
+    forall (b in 1..zeur) do
+      writeln("\tbin = ", b)
+      forall (i in items) do
+        if (xeur(i) = b) then
+          writeln("\t\tItem: ", i," (peso  = ", pesi(i),")")
+        end-if
+      end-do
+    end-do
   end-procedure
 
-  procedure BPPGP_euristico_n
+  procedure BPPGP_random_migliorato
     declarations
       disp, sel: array(items) of integer
       indice, cap: integer
@@ -297,17 +320,18 @@ model Progetto
       until hodisp or fine
     end-do
     t2 := gettime
-    ! writeln("##### COSTRUTTIVO OP #####")
-    ! writeln("\tzeur = ",zeur)
+    writeln("##### COSTRUTTIVO RANDOM MIGLIORATO #####")
+    writeln("\tzeur = ",zeur)
     tsingolo := t2 - t1
-    ! writeln("\ttempo impiegato = ", t2 - t1)
-    ! forall (b in 1..(zeur+1)) do
-    !   forall (i in items) do
-    !     if (xeur(i) = b) then
-    !       writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
-    !     end-if
-    !   end-do
-    ! end-do
+    writeln("\ttempo impiegato = ", t2 - t1)
+    forall (b in 1..zeur) do
+      writeln("\tbin = ", b)
+      forall (i in items) do
+        if (xeur(i) = b) then
+          writeln("\t\tItem: ", i," (peso  = ", pesi(i),")")
+        end-if
+      end-do
+    end-do
   end-procedure
 
   procedure BPPGP_Euristico_con_pval
@@ -430,8 +454,16 @@ model Progetto
     until fine
     t2 := gettime
     writeln ("°°°°°°°°° EURISTICO CON PVAL °°°°°°°°°")
-    writeln ("tempo impiegato = ", t2 - t1)
+    writeln ("\ttempo impiegato = ", t2 - t1)
     writeln("\tzeur = ",zeur)
+    forall (b in 1..zeur) do
+      writeln("\tbin = ", b)
+      forall (i in items) do
+        if (xeur(i) = b) then
+          writeln("\t\tItem: ", i," (peso  = ", pesi(i),")")
+        end-if
+      end-do
+    end-do
   end-procedure
 
   procedure BPPGP_LS
@@ -508,7 +540,6 @@ model Progetto
           end-if
         end-do
       end-if
-      ! La restante parte del codice equivale all'euristico costruttivo RANDOM
       if (pesi(indice) <= cap) then
         cap -= pesi(indice)
       else
@@ -564,10 +595,18 @@ model Progetto
       until hodisp or fine
     end-do
     t2 := gettime
-    tempo:= t2-t1
+    tsingolo:= t2-t1
     ! writeln ("------------ LOCAL SEARCH ------------")
-    ! writeln ("tempo impiegato = ", t2 - t1)
-    ! writeln("\tZEUR = ", zeur)
+    ! writeln ("\ttempo impiegato = ", t2 - t1)
+    ! writeln("\tzeur = ", zeur)
+    ! forall (b in 1..zeur) do
+    !   writeln("\tbin = ", b)
+    !   forall (i in items) do
+    !     if (xeur(i) = b) then
+    !       writeln("\t\tItem: ", i," (peso  = ", pesi(i),")")
+    !     end-if
+    !   end-do
+    ! end-do
   end-procedure
 
   procedure BPPGP_GRASP
@@ -597,13 +636,13 @@ model Progetto
         ! aggiorniamo una variabile pvalmax che trovi il massimo dei pval
         if(pval(j) > pvalmax and disp(partenza(j)) = 1 and sel(partenza(j)) = 0 ) then
           ! 1) Il valore di pval dell'arco j deve essere maggiore rispetto a quello di pvalmax
-          ! 2) L'item i deve essere disponibile
-          ! 3) L'item i non deve essere selezionato
+          ! 2) L'item partenza(j) deve essere disponibile
+          ! 3) L'item partenza(j) non deve essere selezionato
           pvalmax := pval(j)
         end-if
       end-do
       ! Se (pvalmax - crit) è maggiore di 0 inseriamo nella candidate list tutti gli item (disponibili) da cui parte un arco con valore di
-      ! precedenza maggiore a (pvalmax - 2)
+      ! precedenza maggiore a (pvalmax - crit)
       if ((pvalmax - crit) >= 0) then
         forall (j in archi) do
           if (pval(j) >= (pvalmax - crit) and disp(partenza(j)) = 1 and sel(partenza(j)) = 0) then
@@ -611,7 +650,7 @@ model Progetto
           end-if
         end-do
       else
-      ! Se (pmax - criterio) < 0 mettiamo tutti i disponibili nella candidate list
+      ! Se (pmax - crit) < 0 mettiamo tutti i disponibili nella candidate list
         forall(i in items) do
           if(disp(i) = 1) then
             clist(i) := 1
@@ -631,14 +670,13 @@ model Progetto
         end-if
       end-do
       ! write("Seleziono ", indice, " -> ")
-      ! La restante parte del codice equivale all'euristico costruttivo RANDOM
       if (pesi(indice) <= cap) then
         cap -= pesi(indice)
       else
         zeur := zeur + 1
         cap := c - pesi(indice)
       end-if
-      ! writeln("Assegno a bin: ", zeur, " (capacità residua: ", cap,")")
+      ! writeln("bin: ", zeur, " (c res: ", cap,")")
       sel(indice) := 1
       disp(indice) := 0
       xeur(indice) := zeur
@@ -685,13 +723,17 @@ model Progetto
     until fine
     t2 := gettime
     ! writeln("@@@@@@@@ GRASP @@@@@@@@")
-    tempo := t2-t1
-    ! writeln ("tempo impiegato = ", t2 - t1)
-    ! writeln("\tZEUR [GRASP] = ",zeur)
-    ! forall(i in items) do
-    !     writeln("\t(item ", i,", bin ",xeur(i),"); ")
+    ! tsingolo := t2-t1
+    ! writeln ("\ttempo impiegato = ", t2 - t1)
+    ! writeln("\tzeur = ",zeur)
+    ! forall (b in 1..zeur) do
+    !   writeln("\tbin = ", b)
+    !   forall (i in items) do
+    !     if (xeur(i) = b) then
+    !       writeln("\t\tItem: ", i," (peso  = ", pesi(i),")")
+    !     end-if
+    !   end-do
     ! end-do
-    ! writeln
   end-procedure
 
   procedure BPPGP_Multistart
@@ -701,85 +743,83 @@ model Progetto
     t_1 := gettime
     zbest := zeur
     xbest := xeur
-    ! write("iterazione: 0 zeur = ", zeur," -> ")
+    ! write("iter: 0 zeur = ", zeur," -> ")
     forall (iterazione in 1..max_iter) do
-      ! BPPGP_euristico
-      BPPGP_euristico_n
+      ! BPPGP_random
+      BPPGP_random_migliorato
       ! BPPGP_LS
-      ! BPPGP_GRASP
+      BPPGP_GRASP
       tempo += tsingolo
       if(zeur < zbest) then                     ! Se la soluzione dell'euristico è migliore dell'incumbet si aggiorna
-        write("iterazione: ", iterazione," zeur = ", zeur," -> ")
+        ! write("iter: ", iterazione," zeur = ", zeur," -> ")
         zbest := zeur
         xbest := xeur
       end-if
     end-do
-    writeln("")
+    ! writeln("")
     t_2 := gettime
     writeln ("%%%%%%%%%%% MULTISTART %%%%%%%%%%%%")
-    ! forall (b in 1..(zeur+1)) do
+    writeln ("\ttempo medio = ", tempo / max_iter)
+    writeln ("\ttempo tot= ", t_2-t_1)
+    writeln ("\tzbest = ", zbest)
+    ! forall (b in 1..zeur) do
+    !   writeln("\tbin = ", b)
     !   forall (i in items) do
     !     if (xeur(i) = b) then
-    !       writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
+    !       writeln("\t\tItem: ", i," (peso  = ", pesi(i),")")
     !     end-if
     !   end-do
-    ! end-do
-    writeln ("tmedio = ", tempo / max_iter)
-    writeln ("tempo tot= ", t_2-t_1)
-    writeln ("\tzbest = ", zbest)
-
-  end-procedure
-
-  procedure BPP_GP_output_MM
-    writeln("SOLUZIONE")
-    writeln ("tempo impiegato = ",t2-t1)
-    writeln("\tz = ", getobjval)
-    ! forall(i in bins) do
-    !   if (getsol(y(i)) > eps) then
-    !     writeln("\ty(", i, ") = ",getsol(y(i)))
-    !     forall(j in items)
-    !       if (getsol(x(i,j)) > eps) then
-    !         writeln("\t\tx(",i,", ", j, ") = ", getsol(x(i,j)))
-    !       end-if
-    !   end-if
     ! end-do
   end-procedure
 
   procedure BPPGP_Rappresentazione_Grafica
     declarations
       cont: integer
-      larghezza : integer
     end-declarations
-
-    ! larghezza := floor(c/zeur)
     svgaddgroup("b", "Bins", SVG_GRAY)
     svgsetstyle("b", SVG_STROKE, SVG_BLACK)
     svgsetstyle("b", SVG_STROKEWIDTH, 0.05)
     svgsetstyle("b", SVG_FILL, SVG_GRAY)
-
-    svgaddgroup("i", "Items", SVG_LIME)
+    svgaddgroup("i", "Items euristico", SVG_LIME)
     svgsetstyle("i", SVG_STROKE, SVG_BLACK)
     svgsetstyle("i", SVG_STROKEWIDTH, 0.05)
     svgsetstyle("i", SVG_FILL, SVG_LIME)
-
-    svgsetgraphviewbox(0,0,zeur,c)
+    svgaddgroup("o", "Items modello", SVG_YELLOW)
+    svgsetstyle("o", SVG_STROKE, SVG_BLACK)
+    svgsetstyle("o", SVG_STROKEWIDTH, 0.05)
+    svgsetstyle("o", SVG_FILL, SVG_YELLOW)
+    svgsetgraphviewbox(0,0,8,c + 1)
     svgsetgraphlabels("Bins", "Capacity")
-
-    forall (b in 1..(zeur+1)) do
-      cont := 0
-      svgaddrectangle("b", (b-1), 0, 1, c)
-      forall (i in items) do
-        if (xeur(i) = b) then
-          ! writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
-          svgaddrectangle("i", (b-1), cont, 1, pesi(i))
-          cont += pesi(i)
-        end-if
-      end-do
+    
+    ! Da utilizzare per le soluzioni euristiche
+    ! forall (b in 1..(zeur+1)) do
+    !   cont := 0
+    !   svgaddrectangle("b", (b-1), 0, 1, c)
+    !   forall (i in items) do
+    !     if (xeur(i) = b) then
+    !       ! writeln("bin: ", b," item: ", i," (peso  = ", pesi(i),")")
+    !       svgaddrectangle("i", (b-1), cont, 1, pesi(i))
+    !       cont += pesi(i)
+    !     end-if
+    !   end-do
+    ! end-do
+    
+    ! Da utilizzare per il modello matematico
+    forall(b in 1..m) do
+      if (getsol(y(b)) > eps) then
+        ! writeln("\ty(", b, ") = ",getsol(y(b)))
+        svgaddrectangle("b", (b-1), 0, 1, c)
+        cont := 0
+        forall(i in items)
+          if (getsol(x(b, i)) > eps) then
+            ! writeln("\t\tx(",b,", ", j, ") = ", getsol(x(i,j)))
+            svgaddrectangle("o", (b-1), cont, 1, pesi(i))
+            cont += pesi(i)
+            
+          end-if
+      end-if
     end-do
-
     svgrefresh
-    ! svgsave("grafico.svg") ! salva in formato svg la rappresentazione grafica
-
     svgwaitclose
   end-procedure
 

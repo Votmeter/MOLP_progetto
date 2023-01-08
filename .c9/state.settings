@@ -1,25 +1,16 @@
 {
     "breakpoints": {
-        "json()": [
-            {
-                "path": "/Tesina 1 (post multistart).mos",
-                "line": 211,
-                "column": 2,
-                "text": "Tesina 1 (post multistart).mos",
-                "content": "  procedure BPPGP_euristico_n",
-                "time": 1672741692057,
-                "enabled": true
-            }
-        ]
+        "json()": []
     },
     "console": {
         "@expanded": true,
-        "@height": 519.6000061035156,
+        "@height": 291.60003662109375,
         "@maximized": "false",
         "json()": {
             "meta": {
                 "accessList": [
-                    "tab0",
+                    "tab4",
+                    "tab6",
                     "tab2",
                     "tab3"
                 ]
@@ -39,8 +30,8 @@
                         "tooltip": "Compile - Idle",
                         "output": {
                             "id": "build",
-                            "width": 1304,
-                            "height": 217,
+                            "width": 1228,
+                            "height": 266,
                             "scrollTop": -1,
                             "config": {
                                 "name": "Compile",
@@ -66,12 +57,12 @@
                     ],
                     "document": {
                         "filter": true,
-                        "title": "Tesina\\ 1.mos - Stopped",
-                        "tooltip": "Tesina\\ 1.mos - Stopped",
+                        "title": "Tesina\\ 1.mos - Idle",
+                        "tooltip": "Tesina\\ 1.mos - Idle",
                         "output": {
                             "id": "output534240",
-                            "width": 1484,
-                            "height": 241,
+                            "width": 1228,
+                            "height": 266,
                             "scrollTop": -1,
                             "config": {
                                 "runner": "Mosel",
@@ -92,29 +83,59 @@
                 },
                 {
                     "type": "tab",
-                    "name": "tab0",
+                    "name": "tab4",
                     "path": "",
                     "className": [
-                        "tab0"
+                        "tab4"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1670853185062
+                            "timestamp": 1673014985488
                         },
                         "filter": true,
                         "title": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
                         "tooltip": "Tesina\\ 1\\ \\(post\\ multistart\\).mos - Stopped",
                         "output": {
-                            "id": "output20500",
-                            "width": 1228,
-                            "height": 494,
+                            "id": "output299183",
+                            "width": 1484,
+                            "height": 266,
                             "config": {
                                 "runner": "Mosel",
                                 "command": "Tesina\\ 1\\ \\(post\\ multistart\\).mos",
                                 "debug": false,
                                 "toolbar": true,
                                 "name": ""
+                            }
+                        }
+                    },
+                    "editorType": "output",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab6",
+                    "path": "",
+                    "className": [
+                        "tab6"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1673202658214
+                        },
+                        "filter": true,
+                        "title": "Gruppo\\ 18.mos - Stopped",
+                        "tooltip": "Gruppo\\ 18.mos - Stopped",
+                        "output": {
+                            "id": "output2243016",
+                            "width": 1484,
+                            "height": 266,
+                            "config": {
+                                "runner": "Mosel",
+                                "command": "Gruppo\\ 18.mos",
+                                "debug": false,
+                                "toolbar": true
                             }
                         }
                     },
@@ -134,7 +155,7 @@
             "@base-step-wizard": 2,
             "@datagrid": 1,
             "@divider": 4,
-            "@document": 20,
+            "@document": 8,
             "@editorswitch": 1,
             "@fico.vdl.attributes-panel": 1,
             "@fico.vdl.palette-panel": 1,
@@ -144,9 +165,9 @@
             "@menuitem": 8,
             "@pane": 2,
             "@preferences": 1,
-            "@session": 20,
-            "@tab": 12,
-            "@undoManager": 20,
+            "@session": 8,
+            "@tab": 7,
+            "@undoManager": 8,
             "@welcome": 1
         }
     },
@@ -162,8 +183,8 @@
             "@fullscreen": false,
             "@maximized": true,
             "@minimized": false,
-            "@position": "168:9",
-            "@size": "1202:806"
+            "@position": "761:0",
+            "@size": "764:835"
         }
     },
     "menus": {
@@ -173,18 +194,18 @@
         "@installed": true
     },
     "od": {
-        "@last-run-config": "path:Tesina 1 (post multistart).mos"
+        "@last-run-config": "path:Gruppo 18.mos"
     },
     "panecycle": {
         "json()": [
-            "tab6",
-            "tab0"
+            "tab0",
+            "tab6"
         ]
     },
     "panels": {
         "@active-left": "tree",
         "@active-right": "none",
-        "@width-left": 256,
+        "@width-left": 0,
         "commands.panel": {
             "@enabled": "false",
             "@name": "commands.panel"
@@ -231,8 +252,7 @@
         "expanded": {
             "json()": [
                 "/",
-                "/Istanze",
-                "/Istanze/n=50"
+                "/Istanze"
             ]
         }
     },
@@ -241,76 +261,35 @@
     },
     "tabs": {
         "json()": {
-            "focus": "/Tesina 1 (post multistart).mos",
+            "focus": "/Gruppo 18.mos",
             "meta": {
                 "accessList": [
-                    "tab6",
-                    "tab10",
-                    "tab9"
+                    "tab0",
+                    "tab5"
                 ]
             },
             "name": "pane0",
             "nodes": [
                 {
                     "type": "tab",
-                    "name": "tab6",
-                    "path": "/Tesina 1 (post multistart).mos",
+                    "name": "tab0",
+                    "path": "/Gruppo 18.mos",
                     "className": [
-                        "tab6",
+                        "tab0",
                         "focus"
                     ],
                     "document": {
                         "changed": false,
                         "meta": {
-                            "timestamp": 1672961968765
+                            "timestamp": 1673202655018
                         },
                         "filter": true,
-                        "title": "Tesina 1 (post multistart).mos",
-                        "tooltip": "/Tesina 1 (post multistart).mos",
+                        "title": "Gruppo 18.mos",
+                        "tooltip": "/Gruppo 18.mos",
                         "ace": {}
                     },
                     "editorType": "ace",
                     "active": true
-                },
-                {
-                    "type": "tab",
-                    "name": "tab9",
-                    "path": "/Istanze/n=50/n=50(110)p.dat",
-                    "className": [
-                        "tab9"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672932634820
-                        },
-                        "filter": true,
-                        "title": "n=50(110)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(110)p.dat",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": false
-                },
-                {
-                    "type": "tab",
-                    "name": "tab10",
-                    "path": "/Istanze/n=50/n=50(115)p.dat",
-                    "className": [
-                        "tab10"
-                    ],
-                    "document": {
-                        "changed": false,
-                        "meta": {
-                            "timestamp": 1672932994392
-                        },
-                        "filter": true,
-                        "title": "n=50(115)p.dat",
-                        "tooltip": "/Istanze/n=50/n=50(115)p.dat",
-                        "ace": {}
-                    },
-                    "editorType": "ace",
-                    "active": false
                 }
             ],
             "skin": "editor_tab",
@@ -320,7 +299,7 @@
     },
     "tree_selection": {
         "json()": [
-            "/Istanze/n=50/n=50(115)p.dat"
+            "/readme.html"
         ]
     },
     "welcome": {
